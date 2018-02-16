@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import DeleteBtn from "../../components/DeleteBtn";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
+import ImageUpload from "../../components/ImageUpload"
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
@@ -59,20 +60,33 @@ class Books extends Component {
         <Row>
           <Col size="md-6">
             <Jumbotron>
-              <h1>What Books Should I Read?</h1>
+              <h1>Sign Up</h1>
             </Jumbotron>
+            <ImageUpload/>
             <form>
+            <label htmlFor="username">Username: </label>
               <Input
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
+                type="text"
+                value={this.state.username}
+                onChange={this.handleChange}
+                name="username"
+                placeholder="Username"
               />
+              <label htmlFor="password">Password: </label>
               <Input
-                value={this.state.author}
-                onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
+                type="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+                name="password"
+                placeholder="Password"
+              />
+              <label htmlFor="confirmPassword">Confirm Password: </label>
+              <Input
+                type="password"
+                value={this.state.confirmPassword}
+                onChange={this.handleChange}
+                name="confirmPassword"
+                placeholder="Confirm Password"
               />
               <TextArea
                 value={this.state.synopsis}
@@ -81,8 +95,8 @@ class Books extends Component {
                 placeholder="Synopsis (Optional)"
               />
               <FormBtn
-                disabled={!(this.state.author && this.state.title)}
-                onClick={this.handleFormSubmit}
+                disabled={!(this.state.username && this.state.password && this.state.confirmPassword)}
+                onClick={this.handleSubmit}
               >
                 Submit Book
               </FormBtn>
