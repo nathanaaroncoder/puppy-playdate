@@ -22,7 +22,12 @@
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
+    "moment": "^2.20.1",
     "mongoose": "^4.11.7",
-    "react-router-dom": "^4.1.2"
+    "react": "^16.2.0",
+    "react-datepicker": "^1.1.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.1.2",
+    "reactstrap": "^5.0.0-beta"
   }
 }
