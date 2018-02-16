@@ -16,7 +16,7 @@ import "./UserProfile.css";
       
       return (
        <div className="avatar" style={style}>
-             <img src={this.props.image} /> 
+             <img src={this.props.image} className="profileImage" /> 
         </div>
       );
     }

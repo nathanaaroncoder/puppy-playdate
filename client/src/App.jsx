@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import LoginForm from './components/Login/LoginForm'
 import SignupForm from './components/SignupForm'
 import ImageUpload from './components/ImageUpload'
@@ -9,41 +9,36 @@ import Home from './components/Home'
 import Books from "./pages/Books"
 import Detail from "./pages/Detail"
 import Nav from "./components/Nav"
-import Matches from "./components/Matches";
 import UserProfile from "./components/UserProfile";
+import Matches from "./components/Matches";
+import NoMatch from "./pages/NoMatch";
+import Dogs from "./pages/Dogs";
+import Messages from "./pages/Messages";
+import Calendar from "./pages/Calendar";
+
 
 const DisplayLinks = props => {
 	if (props.loggedIn) {
 		return (
-			<nav className="navbar">
-				<ul className="nav">
-					<li className="nav-item">
-						<Link to="/" className="nav-link">
-							Home
-						</Link>
-					</li>
-					<li>
-						<Link to="#" className="nav-link" onClick={props._logout}>
-							Logout
-						</Link>
-					</li>
-					<li className="nav-item">
-						<Link to="/matches" className="nav-link">
-							Matches
-						</Link>
-					</li>
-					<li className="nav-item">
-						<Link to="/books" className="nav-link">
-							Books
-						</Link>
-					</li>
-					<li className="nav-item">
-						<Link to="/books/:id" className="nav-link">
-							Detail
-						</Link>
-					</li>
-				</ul>
-			</nav>
+			<Router>
+  <div>
+    <Nav />
+    <Switch>
+      <Route exact path="/matches" component={Matches} />
+      <Route path="/user_profile/:id" component={UserProfile} />
+      <Route path="/dog_profile/:id" component={Dogs} />
+      <Route exact path="/messages" component={Messages}/>
+      <Route exact path="/calendar" component={Calendar}/>
+      <Route exact path="/" component={Matches}/>
+    <Route component={NoMatch} />
+
+    {/* <Books /> */}
+ 			</Switch>
+
+			
+
+			</div>
+			  </Router>
 		)
 	} else {
 		return (
@@ -137,7 +132,6 @@ class App extends Component {
 		if (this.state.loggedIn){
 			return (
 				<div className="App">
-					<h1>This is the main App component</h1>
 					<Header user={this.state.user} />
 					{/* LINKS to our different 'pages' */}
 					<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
@@ -153,17 +147,16 @@ class App extends Component {
 								_googleSignin={this._googleSignin}
 							/>}
 					/>
-					<Route exact path="/signup" component={SignupForm} />
+					{/*<Route exact path="/signup" component={SignupForm} />
 					<Route exact path="/books" component={Books} />
 					<Route exact path="/matches" component={Matches} />
-      		<Route exact path="/user" component={UserProfile} />
+      		<Route exact path="/user" component={UserProfile} />*/}
 					{/* <LoginForm _login={this._login} /> */}
 				</div>
 				)
 		} else {
 			return (
 				<div className="App">
-					<h1>This is the main App component</h1>
 					<Header user={this.state.user} />
 					{/* LINKS to our different 'pages' */}
 					<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
