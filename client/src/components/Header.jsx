@@ -7,20 +7,27 @@ const Header = props => {
 		Greeting = <p>Hello guest</p>
 	} else if (props.user.firstName) {
 		Greeting = (
-			<p>
+			<span id="greeting">
 				Welcome back, <strong>{props.user.firstName}</strong>
-			</p>
+			</span>
 		)
 	} else if (props.user.local.username) {
 		Greeting = (
-			<p>
+			<span id="greeting">
 				Welcome back, <strong>{props.user.local.username} </strong>
-			</p>
+			</span>
 		)
 	}
 	return (
-		<div className="Header">
-			{Greeting}
+		<div className="Logo">
+			<div className="Header">
+				{Greeting}
+				<span id="logout">
+					<a href="#" className="nav-link" onClick={props._logout}>
+						Logout &nbsp;
+					</a>
+				</span>
+			</div>
 		</div>
 	)
 }
