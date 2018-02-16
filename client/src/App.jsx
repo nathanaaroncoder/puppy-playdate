@@ -12,7 +12,7 @@ import Nav from "./components/Nav"
 import UserProfile from "./components/UserProfile";
 import Matches from "./components/Matches";
 import NoMatch from "./pages/NoMatch";
-import Dog from "./pages/Dog";
+import Dogs from "./pages/Dogs";
 import Messages from "./pages/Messages";
 import Calendar from "./pages/Calendar";
 
@@ -26,7 +26,7 @@ const DisplayLinks = props => {
     <Switch>
       <Route exact path="/matches" component={Matches} />
       <Route path="/user_profile/:id" component={UserProfile} />
-      <Route path="/dog_profile/:id" component={Dog} />
+      <Route path="/dog_profile/:id" component={Dogs} />
       <Route exact path="/messages" component={Messages}/>
       <Route exact path="/calendar" component={Calendar}/>
       <Route exact path="/" component={Matches}/>
