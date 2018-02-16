@@ -9,6 +9,8 @@ import Home from './components/Home'
 import Books from "./pages/Books"
 import Detail from "./pages/Detail"
 import Nav from "./components/Nav"
+import Matches from "./components/Matches";
+import UserProfile from "./components/UserProfile";
 
 const DisplayLinks = props => {
 	if (props.loggedIn) {
@@ -153,6 +155,8 @@ class App extends Component {
 					/>
 					<Route exact path="/signup" component={SignupForm} />
 					<Route exact path="/books" component={Books} />
+					<Route exact path="/matches" component={Matches} />
+      		<Route exact path="/user" component={UserProfile} />
 					{/* <LoginForm _login={this._login} /> */}
 				</div>
 				)
