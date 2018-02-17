@@ -28,8 +28,7 @@ class Dogs extends Component {
   }
 
   loadDog = () => {
-    API
-      .getDogs()
+    API.getDogs()
       .then(res => this.setState({dogs: res.data, name: "", owner: "", sex: ""}))
       .catch(err => console.log(err));
   };
