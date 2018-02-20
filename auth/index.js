@@ -54,7 +54,7 @@ router.post('/logout', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-	const { username, password } = req.body
+	const { username, password, dogName } = req.body
 	// ADD VALIDATION
 	User.findOne({ 'local.username': username }, (err, userMatch) => {
 		if (userMatch) {
@@ -64,7 +64,8 @@ router.post('/signup', (req, res) => {
 		}
 		const newUser = new User({
 			'local.username': username,
-			'local.password': password
+			'local.password': password,
+			'dogName': dogName
 		})
 		newUser.save((err, savedUser) => {
 			if (err) return res.json(err)
@@ -72,5 +73,23 @@ router.post('/signup', (req, res) => {
 		})
 	})
 })
+
+router.put('/signup', (req, res) => {
+	const { username, match } = req.body;
+	User.findOneAndUpdate({ 'local.username': username }, { $push: { 'matches': match } }, { new: true })
+})
+
+router.get('/signup', function(req, res) {
+	// Grab every document in the Articles collection
+	User.find({})
+	  .then(function(dbUser) {
+		// If we were able to successfully find Articles, send them back to the client
+		res.json(dbUser);
+	  })
+	  .catch(function(err) {
+		// If an error occurred, send it to the client
+		res.json(err);
+	  });
+   });
 
 module.exports = router

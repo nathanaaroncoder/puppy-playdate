@@ -14,7 +14,8 @@ const userSchema = new Schema({
 	google: {
 		googleId: { type: String, required: false }
 	},
-	dogName: { type: String, unique: false }
+	dogName: { type: String, unique: false },
+	matches: { type: Array }
 	// local: {
 	// 	email: { type: String, unique: true },
 	// 	password: { type: String }
