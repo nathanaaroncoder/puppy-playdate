@@ -170,7 +170,15 @@ class App extends Component {
 								_googleSignin={this._googleSignin}
 							/>}
 					/>
-					<Route exact path="/signup" component={SignupForm} />
+					<Route
+						exact
+						path="/signup"
+						render={() =>
+							<SignupForm
+								_login={this._login}
+								_googleSignin={this._googleSignin}
+							/>}
+					/>
 	
 					{/* <LoginForm _login={this._login} /> */}
 				</div>

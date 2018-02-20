@@ -6,32 +6,47 @@ import {Col, Row, Container} from "../../components/Grid";
 // import {List, ListItem} from "../../components/List";
 import {Input, FormBtn} from "../../components/Form";
 import Dropdown from "../../components/Dropdown";
+import axios from 'axios';
+import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
+import {Redirect} from "react-router-dom"
 
 class Dogs extends Component {
+  constructor(){
+    super()
+    this.state = {
+      user: null,
+      dogName: "",
+      owner: "",
+      photos: [],
+      sex: "",
+      places: [],
+      fixed: "",
+      vetDate: "",
+      location: "",
+      radius:"",
+      redirectTo: null
+    }
 
-  state = {
-    name: "",
-    owner: "",
-    photos: [],
-    sex: "",
-    places: [],
-    fixed: "",
-    vetDate: "",
-    location: "",
-    username:"",
-    password:"",
-    radius:""
-  };
-
+    this.handleFormSubmit = this.handleFormSubmit.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+}
   componentDidMount() {
-    this.loadDog();
+    this.loadUser();
   }
 
-  loadDog = () => {
-    API.getDogs()
-      .then(res => this.setState({dogs: res.data, name: "", owner: "", sex: ""}))
+  loadUser = () => {
+    axios.get('/auth/user')
+      .then(res => {
+        this.setState({ user: res.data.user.local.username }) 
+        console.log("res.data", res.data);
+        console.log("user here", this.state.user);
+      })
       .catch(err => console.log(err));
   };
+
+  placesChanged = (newPlaces) => {
+    this.setState({places: newPlaces});
+  }
 
   handleInputChange = event => {
     const {name, value} = event.target;
@@ -42,48 +57,43 @@ class Dogs extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     console.log(this.state);
-    if (this.state.name && this.state.owner && this.state.sex) {
-      API
-        .saveDog({name: this.state.name, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed})
-        .then(res => this.loadDogs())
+    if (this.state.dogName && this.state.owner && this.state.sex) {
+      axios
+        .put('/auth/signup', {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location})
+        .then(res => {
+          console.log(res)
+          this.setState({ redirectTo: "/matches" });
+        })
         .catch(err => console.log(err));
     }
   };
 
   render() {
+    if(this.state.redirectTo){
+      return <Redirect to={{ pathname: this.state.redirectTo }}/>
+    }
     return (
       <Container fluid>
         <Row>
           <Col size="md-6">
 
             <form>
-              <Input
-                value={this.state.username}
-                onChange={this.handleInputChange}
-                name="username"
-                placeholder="Username (required)"/>
-              <Input
-                value={this.state.password}
-                onChange={this.handleInputChange}
-                name="password"
-                type ="password"
-                placeholder="Password(required)"/>
 
               <Input
-                value={this.state.name}
+                value={this.state.dogName}
                 onChange={this.handleInputChange}
-                name="name"
-                placeholder="Name (required)"/>
+                name="dogName"
+                placeholder="Dog Name (required)"/>
               <Input
                 value={this.state.owner}
                 onChange={this.handleInputChange}
                 name="owner"
-                placeholder="Owner (required)"/>
+                placeholder="Owner"/>
               <Input
                 value={this.state.location}
                 onChange={this.handleInputChange}
                 name="location"
-                placeholder="Location(required)"/>
+                placeholder="Location (required)"/>
               
 <Dropdown  group isOpen = {this.state.dropdownOpen}size = "sm" toggle = {this.toggle} value = {this.select} name= "radius"> 
     
@@ -132,26 +142,17 @@ class Dogs extends Component {
               </div>
 
               <h3>Places</h3>
-              < div className="form-group">
-                <label>
-                  <input
-                    type="checkbox"
+              <CheckboxGroup
+                    checkboxDepth={2} // This is needed to optimize the checkbox group
                     name="places"
-                    value="Park"
-                    onChange={this.handleInputChange}/>Park</label>
-              </div>
-              <div className="form-group">
-                <label>
-                  <input
-                    type="checkbox"
-                    name="places"
-                    value="Beach"
-                    onChange={this.handleInputChange}/>
-                  Beach
-                </label>
-              </div>
+                    value={this.state.places}
+                    onChange={this.placesChanged}>
+                    <label><Checkbox value="park"/> Park</label>
+                    <label><Checkbox value="beach"/> Beach</label>
+                    <label><Checkbox value="indoors"/> Indoors</label>
+              </CheckboxGroup>
               <FormBtn
-                disabled={!(this.state.name && this.state.owner && this.state.sex)}
+                disabled={!(this.state.dogName && this.state.sex && this.state.location)}
                 onClick={this.handleFormSubmit}>
 
                 Submit Dog
