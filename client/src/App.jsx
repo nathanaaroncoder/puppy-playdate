@@ -6,8 +6,6 @@ import SignupForm from './components/SignupForm'
 import ImageUpload from './components/ImageUpload'
 import Header from './components/Header'
 import Home from './components/Home'
-import Books from "./pages/Books"
-import Detail from "./pages/Detail"
 import Nav from "./components/Nav"
 import UserProfile from "./components/UserProfile";
 import Matches from "./components/Matches";
