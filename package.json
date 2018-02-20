@@ -39,6 +39,7 @@
     "react-dom": "^15.5.4",
     "react-image-uploader": "^1.0.0",
     "react-images-uploader": "^1.1.0",
-    "react-router-dom": "^4.1.2"
+    "react-router-dom": "^4.1.2",
+    "react-swipeable": "^4.2.0"
   }
 }

@@ -15,7 +15,17 @@ const userSchema = new Schema({
 		googleId: { type: String, required: false }
 	},
 	dogName: { type: String, unique: false },
-	matches: { type: Array }
+	saidYes: { type: Array },
+	saidNo: { type: Array },
+	matches: { type: Array },
+	owner: { type: String, unique: false },
+	sex: { type: String, unique: false },
+	fixed: { type: String, unique: false },
+	location: { type: String, unique: false }
+
+
+	// {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}
+
 	// local: {
 	// 	email: { type: String, unique: true },
 	// 	password: { type: String }

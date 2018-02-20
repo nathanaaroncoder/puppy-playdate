@@ -4,22 +4,11 @@ import Swipeable from 'react-swipeable';
 import "./SimpleCarousel";
 import UserProfile from "../UserProfile";
 
-
-// import FriendCard from "../FriendCard";
-
-import profiles from "../../profiles.json";
-
-const IMG_1 = `https://unsplash.it/342/249`;
-const IMG_2 = `https://unsplash.it/342/250`;
-const IMG_3 = `https://unsplash.it/342/251`;
-const IMG_4 = `https://unsplash.it/342/252`;
-const IMG_5 = `https://unsplash.it/342/253`;
-const IMAGES = [IMG_1, IMG_2, IMG_3, IMG_4, IMG_5];
 const IMG_WIDTH = "342px";
 const IMG_HEIGHT = "249px";
 
-const RIGHT = '+1';
-const LEFT = '+1';
+const RIGHT = 'right';
+const LEFT = 'left';
 
 const buttonStyles = {
   height: IMG_HEIGHT,
@@ -34,7 +23,7 @@ class SimpleCarousel extends React.Component {
       imageIdx: 0,
       user: null,
       dogs: [],
-      currentDog: null
+      thatUser: null
     }
   }
 
@@ -50,10 +39,10 @@ class SimpleCarousel extends React.Component {
 			console.log(res.data);
       const allDogs = res.data;
       const shuffled = allDogs.sort(() => Math.random() - 0.5);
-      const excludeUser = shuffled.filter(dog => dog.local.username !== this.state.user )
-      console.log("user here", this.state.user)
+      const excludeUser = shuffled.filter(dog => dog.local.username !== this.state.user );
+      console.log("user here", this.state.user);
       this.setState({dogs: excludeUser});
-      console.log("excluding", excludeUser)
+      console.log("excluding", excludeUser);
 		
 		})
   }
@@ -85,33 +74,60 @@ class SimpleCarousel extends React.Component {
 	// }
 
   onSwiped(direction) {
-    const change = LEFT;
-    const adjustedIdx = this.state.imageIdx + Number(change);
+    const change = direction === RIGHT ? RIGHT : LEFT;
+    const adjustedIdx = this.state.imageIdx + 1;
     let newIdx;
     if (adjustedIdx >= this.state.dogs.length) {
       newIdx = 0;
-    } else if (adjustedIdx < 0) {
-      newIdx = IMAGES.length - 1
     } else {
       newIdx = adjustedIdx;
     }
     this.setState({ imageIdx: newIdx });
     //doing imageIdx - 1 so that it grabs what was on the page before (not the one that just showed up)
     if (this.state.imageIdx === 0){
-      this.setState({ currentDog: this.state.dogs[this.state.dogs.length - 1] })
+      this.setState({ thatUser: this.state.dogs[this.state.dogs.length - 1] })
     } else {
-      this.setState({ currentDog: this.state.dogs[this.state.imageIdx - 1] });
+      this.setState({ thatUser: this.state.dogs[this.state.imageIdx - 1] });
     }
     
-    console.log("currentDog username", this.state.currentDog.local.username);
-    // if (change === LEFT){
-      axios.put("/auth/signup", {
-        username: this.state.user,
-        match: this.state.currentDog.local.username
+    console.log("thatUser username", this.state.thatUser.local.username);
+    if (change === RIGHT){
+      console.log("this.state.thatUser before request", this.state.thatUser);
+      axios.get("/auth/signup", {
+        thatUser: this.state.thatUser.local.username
       }).then(res => {
-        console.log("sent this," + res);
+        console.log("res.data in swipe right", res.data);
+        console.log("this.state.thisUser", this.state.user);
+       const index = res.data[0].saidYes.findIndex(person => person == this.state.user);
+       if (index > -1){
+            axios.put("/auth/signup", {
+              thisUser: this.state.user,
+              thatUser: this.state.thatUser,
+              matched: true
+            }).then(res => {
+              console.log("sent this,", res);
+            }).catch(err => console.log(err))
+       }
+        axios.put("/auth/signup", {
+          thisUser: this.state.user,
+          saidYes: this.state.thatUser.local.username
+        }).then(res => {
+          console.log("sent this,", res);
+        }).catch(err => console.log(err))
+       
       })
-    // }
+      
+    }
+
+
+    if (change === LEFT){
+      axios.put("/auth/signup", {
+        thisUser: this.state.user,
+        saidNo: this.state.thatUser.local.username
+      }).then(res => {
+        console.log("sent this,", res);
+      }).catch(err => console.log(err))
+    }
   }
 
 //   const friendsArr = {(friends).map(friend =>{

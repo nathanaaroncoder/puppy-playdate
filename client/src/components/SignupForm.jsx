@@ -11,7 +11,6 @@ class SignupForm extends Component {
 		this.state = {
 			username: '',
 			password: '',
-			dogName: '',
 			confirmPassword: '',
 			redirectTo: null
 		}
@@ -29,16 +28,17 @@ class SignupForm extends Component {
 		axios
 			.post('/auth/signup', {
 				username: this.state.username,
-				password: this.state.password,
-				dogName: this.state.dogName
+				password: this.state.password
 			})
 			.then(response => {
 				console.log(response)
 				if (!response.data.errmsg) {
 					console.log('youre good')
+					console.log('handleSubmit')
+					this.props._login(this.state.username, this.state.password)
 					this.setState({
-						redirectTo: '/login'
-					})
+			redirectTo: '/dog_profile/1'
+		})
 				} else {
 					console.log('duplicate')
 				}
@@ -77,14 +77,6 @@ class SignupForm extends Component {
 					onChange={this.handleChange}
 					name="confirmPassword"
 					placeholder="Confirm Password"
-				  />
-				  <label htmlFor="dogName">Your Dog's Name: </label>
-				  <Input
-					type="text"
-					value={this.state.dogName}
-					onChange={this.handleChange}
-					name="dogName"
-					placeholder="Dog Name"
 				  />
 				  <ImageUpload/>
 				  <FormBtn
