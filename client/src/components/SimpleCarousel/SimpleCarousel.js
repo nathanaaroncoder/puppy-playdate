@@ -1,5 +1,5 @@
-
 import React from 'react';
+import axios from 'axios';
 import Swipeable from 'react-swipeable';
 import "./SimpleCarousel";
 import UserProfile from "../UserProfile";
@@ -18,7 +18,7 @@ const IMAGES = [IMG_1, IMG_2, IMG_3, IMG_4, IMG_5];
 const IMG_WIDTH = "342px";
 const IMG_HEIGHT = "249px";
 
-const RIGHT = '-1';
+const RIGHT = '+1';
 const LEFT = '+1';
 
 const buttonStyles = {
@@ -30,14 +30,65 @@ const buttonStyles = {
 class SimpleCarousel extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.state = { imageIdx: 0 };
+    this.state = { 
+      imageIdx: 0,
+      user: null,
+      dogs: [],
+      currentDog: null
+    }
   }
 
+  findDogs = () => {
+    axios.get('/auth/user').then(response => {
+      if (response.data.user) {
+        this.setState({
+					user: response.data.user.local.username
+        })
+      }
+    })
+		axios.get('/auth/signup').then(res => {
+			console.log(res.data);
+      const allDogs = res.data;
+      const shuffled = allDogs.sort(() => Math.random() - 0.5);
+      const excludeUser = shuffled.filter(dog => dog.local.username !== this.state.user )
+      console.log("user here", this.state.user)
+      this.setState({dogs: excludeUser});
+      console.log("excluding", excludeUser)
+		
+		})
+  }
+  
+  componentDidMount(){
+    this.findDogs();
+  }
+
+  componentDidUpdate() {
+		console.log("AFTER UPDATE", this.state.dogs);
+	}
+
+  // _login(username, password) {
+	// 	axios
+	// 		.post('/auth/login', {
+	// 			username,
+	// 			password
+	// 		})
+	// 		.then(response => {
+	// 			console.log(response)
+	// 			if (response.status === 200) {
+	// 				// update the state
+	// 				this.setState({
+	// 					loggedIn: true,
+	// 					user: response.data.user
+	// 				})
+	// 			}
+	// 		})
+	// }
+
   onSwiped(direction) {
-    const change =  LEFT;
+    const change = LEFT;
     const adjustedIdx = this.state.imageIdx + Number(change);
     let newIdx;
-    if (adjustedIdx >= profiles.length) {
+    if (adjustedIdx >= this.state.dogs.length) {
       newIdx = 0;
     } else if (adjustedIdx < 0) {
       newIdx = IMAGES.length - 1
@@ -45,6 +96,22 @@ class SimpleCarousel extends React.Component {
       newIdx = adjustedIdx;
     }
     this.setState({ imageIdx: newIdx });
+    //doing imageIdx - 1 so that it grabs what was on the page before (not the one that just showed up)
+    if (this.state.imageIdx === 0){
+      this.setState({ currentDog: this.state.dogs[this.state.dogs.length - 1] })
+    } else {
+      this.setState({ currentDog: this.state.dogs[this.state.imageIdx - 1] });
+    }
+    
+    console.log("currentDog username", this.state.currentDog.local.username);
+    // if (change === LEFT){
+      axios.put("/auth/signup", {
+        username: this.state.user,
+        match: this.state.currentDog.local.username
+      }).then(res => {
+        console.log("sent this," + res);
+      })
+    // }
   }
 
 //   const friendsArr = {(friends).map(friend =>{
@@ -80,15 +147,18 @@ class SimpleCarousel extends React.Component {
           onSwipedRight={()=>this.onSwiped(RIGHT)}
         >
           <div  >
-           <UserProfile
-          key={profiles[imageIdx].id} 
-          id={profiles[imageIdx].id} 
-          name={profiles[imageIdx].name} 
-          image={profiles[imageIdx].image} 
-          occupation={profiles[imageIdx].occupation} 
-          location={profiles[imageIdx].location} 
+            {this.state.dogs.length ? (<UserProfile
+          key={this.state.dogs[imageIdx]._id} 
+          id={this.state.dogs[imageIdx]._id} 
+          name={this.state.dogs[imageIdx].local.username} 
+          image={this.state.dogs[imageIdx].local.username} 
+          occupation={this.state.dogs[imageIdx].dogName} 
+          location={this.state.dogs[imageIdx].dogName} 
 
-          />
+            />) : (
+              <h2>No Results to Display</h2>
+            ) }
+           
             <button
               onClick={()=>this.onSwiped(RIGHT)}
               className="hollow float-left"

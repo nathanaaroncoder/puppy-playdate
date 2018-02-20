@@ -132,7 +132,7 @@ class App extends Component {
 		if (this.state.loggedIn){
 			return (
 				<div className="App">
-					<Header user={this.state.user} />
+					<Header user={this.state.user} _logout={this._logout} />
 					{/* LINKS to our different 'pages' */}
 					<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
 					{/*  ROUTES */}
