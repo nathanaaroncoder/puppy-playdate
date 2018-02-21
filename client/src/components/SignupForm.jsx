@@ -37,7 +37,7 @@ class SignupForm extends Component {
 					console.log('handleSubmit')
 					this.props._login(this.state.username, this.state.password)
 					this.setState({
-			redirectTo: '/dog_profile/1'
+			redirectTo: '/user_profile'
 		})
 				} else {
 					console.log('duplicate')
