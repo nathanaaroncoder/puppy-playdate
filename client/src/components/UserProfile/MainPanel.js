@@ -20,7 +20,8 @@ import "./UserProfile.css";
               <h3>Location: {info.location}</h3>
               <h3>Dog's Name: {info.occupation}</h3>
             <hr />
-              <p>Gender: Female</p>
+              <p>Sex: {info.sex}</p>
+              <p>Fixed: {info.fixed}</p>
           </div>
           
           <div className="bottom">

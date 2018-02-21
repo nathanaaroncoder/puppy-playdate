@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import API from '../../utils/API';
 import Swipeable from 'react-swipeable';
 import "./SimpleCarousel";
 import UserProfile from "../UserProfile";
@@ -38,11 +39,54 @@ class SimpleCarousel extends React.Component {
 		axios.get('/auth/signup').then(res => {
 			console.log(res.data);
       const allDogs = res.data;
+      // shuffles all the dogs
       const shuffled = allDogs.sort(() => Math.random() - 0.5);
-      const excludeUser = shuffled.filter(dog => dog.local.username !== this.state.user );
+      //gives you the current user's data from the whole list
+      const currentUserData = allDogs.filter(dog => dog.local.username == this.state.user);
+      console.log("current user data", currentUserData[0]);
+      // current user's yes's
+      const saidYesList = currentUserData[0].saidYes;
+      console.log("said yes list", saidYesList);
+      // current user's no's
+      const saidNoList = currentUserData[0].saidNo;
+      console.log("said no list", saidNoList); 
+      // excludes the current user from the list of potential matches     
+      const excludeUser = shuffled.filter(dog => dog.local.username !== this.state.user);
+       // an array that can be altered with each filter
+       let filteredList = excludeUser;
+
+      excludeUser.forEach(user => {
+        if(user.saidNo.includes(this.state.user)){
+          filteredList = filteredList.filter(person => person.local.username !== user.local.username)
+        }
+      })
+
+
+     
+      // an array of just the usernames
+      const usernames = filteredList.map(person => person.local.username);
+      console.log("usernames", usernames);
+      // looping through these usernames
+      usernames.forEach(username => {
+        // if the username is included in the saidYesList of the current user,
+        // then it gets filtered out
+        if(saidYesList.includes(username)){
+          filteredList = filteredList.filter(person => person.local.username !== username)
+        }
+        // if the username is included in the saidNoList of the current user,
+        // then it gets filtered out
+        if(saidNoList.includes(username)){
+         filteredList = filteredList.filter(person => person.local.username !== username)          
+        }
+      })
+
+   
+
+
       console.log("user here", this.state.user);
-      this.setState({dogs: excludeUser});
-      console.log("excluding", excludeUser);
+      // sets the state of dogs to the new list of all the filters
+      this.setState({dogs: filteredList});
+      console.log("excluding", filteredList);
 		
 		})
   }
@@ -55,94 +99,76 @@ class SimpleCarousel extends React.Component {
 		console.log("AFTER UPDATE", this.state.dogs);
 	}
 
-  // _login(username, password) {
-	// 	axios
-	// 		.post('/auth/login', {
-	// 			username,
-	// 			password
-	// 		})
-	// 		.then(response => {
-	// 			console.log(response)
-	// 			if (response.status === 200) {
-	// 				// update the state
-	// 				this.setState({
-	// 					loggedIn: true,
-	// 					user: response.data.user
-	// 				})
-	// 			}
-	// 		})
-	// }
-
   onSwiped(direction) {
     const change = direction === RIGHT ? RIGHT : LEFT;
     const adjustedIdx = this.state.imageIdx + 1;
     let newIdx;
+    let newThatUser;
+    let emptyDogs;
+
     if (adjustedIdx >= this.state.dogs.length) {
       newIdx = 0;
     } else {
       newIdx = adjustedIdx;
     }
-    this.setState({ imageIdx: newIdx });
+    
+
     //doing imageIdx - 1 so that it grabs what was on the page before (not the one that just showed up)
-    if (this.state.imageIdx === 0){
-      this.setState({ thatUser: this.state.dogs[this.state.dogs.length - 1] })
+    if (newIdx === 0){
+      newThatUser = this.state.dogs[this.state.dogs.length - 1];
     } else {
-      this.setState({ thatUser: this.state.dogs[this.state.imageIdx - 1] });
+      newThatUser = this.state.dogs[newIdx - 1];
     }
     
-    console.log("thatUser username", this.state.thatUser.local.username);
+    console.log("thatUser username", newThatUser.local.username);
     if (change === RIGHT){
-      console.log("this.state.thatUser before request", this.state.thatUser);
-      axios.get("/auth/signup", {
-        thatUser: this.state.thatUser.local.username
+      console.log("this.state.thatUser before request", newThatUser);
+      API.getDogs({
+        thatUser: newThatUser.local.username
       }).then(res => {
         console.log("res.data in swipe right", res.data);
         console.log("this.state.thisUser", this.state.user);
-       const index = res.data[0].saidYes.findIndex(person => person == this.state.user);
+        // find the index of thatUser in the res.data arr
+        const indexThatUser = res.data.map(person => person.local.username ).indexOf(newThatUser.local.username);
+       console.log("indexThatUser", indexThatUser);
+       //check if thatUser already saidYes to the current user
+       const index = res.data[indexThatUser].saidYes.findIndex(person => person == this.state.user);
+       console.log("index", index);
        if (index > -1){
-            axios.put("/auth/signup", {
+            API.signUp({
               thisUser: this.state.user,
-              thatUser: this.state.thatUser,
-              matched: true
+              thatUser: newThatUser.local.username,
+              matches: true
             }).then(res => {
-              console.log("sent this,", res);
+              console.log("getting this back,", res);
             }).catch(err => console.log(err))
        }
-        axios.put("/auth/signup", {
+        API.signUp({
           thisUser: this.state.user,
-          saidYes: this.state.thatUser.local.username
+          saidYes: newThatUser.local.username
         }).then(res => {
           console.log("sent this,", res);
         }).catch(err => console.log(err))
-       
       })
       
     }
 
 
     if (change === LEFT){
-      axios.put("/auth/signup", {
+      API.signUp({
         thisUser: this.state.user,
-        saidNo: this.state.thatUser.local.username
+        saidNo: newThatUser.local.username
       }).then(res => {
         console.log("sent this,", res);
       }).catch(err => console.log(err))
     }
+
+    this.setState({
+      thatUser: newThatUser,
+      imageIdx: newIdx
+    });
   }
 
-//   const friendsArr = {(friends).map(friend =>{
-//   return <FriendCard 
-//           key={friend.id} 
-//           id={friend.id} 
-//           name={friend.name} 
-//           image={friend.image} 
-//           occupation={friend.occupation} 
-//           location={friend.location} 
-//           removeFriend={this.removeFriend}
-
-//           />
-//   })
-// }
 
   render() {
     const { imageIdx = 0 } = this.state;
@@ -164,12 +190,13 @@ class SimpleCarousel extends React.Component {
         >
           <div  >
             {this.state.dogs.length ? (<UserProfile
-          key={this.state.dogs[imageIdx]._id} 
-          id={this.state.dogs[imageIdx]._id} 
-          name={this.state.dogs[imageIdx].local.username} 
-          image={this.state.dogs[imageIdx].local.username} 
-          occupation={this.state.dogs[imageIdx].dogName} 
-          location={this.state.dogs[imageIdx].dogName} 
+          key={this.state.dogs[imageIdx]._id}
+          id={this.state.dogs[imageIdx]._id}
+          name={this.state.dogs[imageIdx].local.username}
+          image={this.state.dogs[imageIdx].local.username}
+          occupation={this.state.dogs[imageIdx].dogName}
+          location={this.state.dogs[imageIdx].location}
+          fixed={this.state.dogs[imageIdx].fixed}
 
             />) : (
               <h2>No Results to Display</h2>

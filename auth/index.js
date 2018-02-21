@@ -75,24 +75,31 @@ router.post('/signup', (req, res) => {
 })
 // {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}
 router.put('/signup', (req, res) => {
-	const { username, thisUser, thatUser, saidYes, saidNo, dogName, owner, sex, fixed, location, matched } = req.body;
+	const { username, thisUser, thatUser, saidYes, saidNo, dogName, owner, sex, fixed, location, matches } = req.body;
 	if (saidNo){
 		User.findOneAndUpdate({ 'local.username': thisUser },{ $push: { 'saidNo': saidNo } }, { new: true })
 		.then(data => res.send(data))
 		.catch(err => ('Error: ', err));
-	} else {
+	} 
+	
+	if (saidYes) {
 		User.findOneAndUpdate({ 'local.username': thisUser },{ $push: { 'saidYes': saidYes } }, { new: true })
 		.then(data => res.send(data))
 		.catch(err => ('Error: ', err));
 	}
 
-	if (matched){
-		User.update({ 'local.username': thisUser },{ $push: { 'matched': thatUser } }, { new: true })
-		.then(data => res.send(data))
-		.catch(err => ('Error: ', err));
-		User.update({ 'local.username': thatUser },{ $push: { 'matched': thisUser } }, { new: true })
-		.then(data => res.send(data))
-		.catch(err => ('Error: ', err));
+	if (matches){
+		console.log("matches", matches);
+		User.findOneAndUpdate({ 'local.username': thisUser },{ $push: { 'matches': thatUser } }, { new: true })
+		.then(data => {
+			User.findOneAndUpdate({ 'local.username': thatUser },{ $push: { 'matches': thisUser } }, { new: true })
+			.then(response => {
+				console.log("data and response", data, response);
+				res.send(data, response);
+			})
+			.catch(err => ('Error: ', err))
+		})
+		.catch(error => ("Second error: ", error))
 	}
 
 	if (dogName){
@@ -105,14 +112,8 @@ router.put('/signup', (req, res) => {
 
 
 router.get('/signup', function(req, res) {
-	// Grab every document in the Articles collection
-	const { thatUser } = req.body;
-	if (thatUser){
-		User.findOne({ 'local.username': thatUser })
-		.then(data => res.send(data))
-		.catch(err => console.log(err))
-	} else {
-	
+
+
 	User.find({})
 	  .then(function(dbUser) {
 		// If we were able to successfully find Articles, send them back to the client
@@ -122,7 +123,6 @@ router.get('/signup', function(req, res) {
 		// If an error occurred, send it to the client
 		res.json(err);
 	  });
-	}
    });
 
 

@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
   // Gets all books
   getDogs: function() {
-    return axios.get("/api/dogs");
+    return axios.get("/auth/signup");
   },
   // Gets the book with the given id
   getDog: function(id) {
@@ -16,5 +16,9 @@ export default {
   // Saves a dog to the database
   saveDog: function(dogData) {
     return axios.post("/api/dogs", dogData);
+  },
+
+  signUp: (data) => {
+    return axios.put("/auth/signup", data);
   }
 };
