@@ -42,8 +42,7 @@ render() {
       <Container fluid>
         <Row>
           <Col size="sm-12">
-
-          <Calendar/>
+            <Calendar/>
           </Col>
         </Row>
       </Container >

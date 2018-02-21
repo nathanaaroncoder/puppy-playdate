@@ -15,7 +15,7 @@ export default [
   
     {
       id: 2,
-      title: 'DTS STARTS',
+      title: 'Vacation',
       start: new Date(2018, 2, 13, 0, 0, 0),
       end: new Date(2018, 2, 20, 0, 0, 0),
     },
@@ -29,9 +29,9 @@ export default [
   
     {
       id: 4,
-      title: 'Some Event',
-      start: new Date(2018, 3, 9, 0, 0, 0),
-      end: new Date(2018, 3, 9, 0, 0, 0),
+      title: 'Play date with Fluffy',
+      start: new Date(2018, 2, 21, 10, 0, 0),
+      end: new Date(2018, 2, 21, 11, 0, 0),
     },
     {
       id: 5,
@@ -91,4 +91,10 @@ export default [
       start: new Date(2018, 3, 20, 19, 30, 0),
       end: new Date(2018, 3, 22, 2, 0, 0),
     },
+    {
+      id: 14,
+      title: 'Play date with Rex',
+      start: new Date(2018, 2, 22, 9, 0, 0),
+      end: new Date(2018, 2, 22, 11, 0, 0),
+    },    
   ]
