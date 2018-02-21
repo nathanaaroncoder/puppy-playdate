@@ -97,8 +97,14 @@ router.put('/signup', (req, res) => {
 
 	if (dogName){
 		User.findOneAndUpdate({ 'local.username': username },{ 'dogName': dogName, 'owner': owner, 'sex': sex, 'fixed': fixed, 'location': location   }, { new: true })
-		.then(data => res.send(data))
-		.catch(err => ('Error: ', err));
+		.then(data => {
+			console.log('data: ', data );
+			res.send(data);
+		})
+		.catch(err => {
+			console.log('error: ', data );
+			('Error: ', err)
+		});
 	}
 })
 

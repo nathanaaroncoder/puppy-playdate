@@ -9,12 +9,15 @@ import Dropdown from "../../components/Dropdown";
 import axios from 'axios';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
 import {Redirect} from "react-router-dom"
-
+import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete'
 
 
 class Dogs extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props);
+    this.onChange = (location) => {
+      this.setState({location})
+    };
     this.state = {
       user: null,
       dogName: "",
@@ -59,21 +62,40 @@ class Dogs extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     console.log(this.state);
-    if (this.state.dogName && this.state.owner && this.state.sex) {
-      axios
-        .put('/auth/signup', {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location})
-        .then(res => {
-          console.log(res)
-          this.setState({ redirectTo: "/matches" });
-        })
-        .catch(err => console.log(err));
-    }
+
+    // geocodeByAddress(this.state.location)
+    // .then(results => getLatLng(results[0]))
+    // .then(latLng => {
+    //   this.setState({
+    //     location: latLng
+    //   });
+
+
+      if (this.state.dogName && this.state.owner && this.state.sex) {
+          axios
+            .put('/auth/signup', {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location})
+            .then(res => {
+              console.log('axios then: ',res)
+              this.setState({ redirectTo: "/matches" });
+            })
+            .catch(err => console.log('Axios err: ', err));
+        }
+    
+      
+      
+    // })
+    // .catch(error => console.error('Error', error))
+
   };
 
   render() {
     if(this.state.redirectTo){
       return <Redirect to={{ pathname: this.state.redirectTo }}/>
     }
+    const inputProps = {
+      value: this.state.location,
+      onChange: this.onChange
+    }    
     return (
       <Container fluid>
         <Row>
@@ -91,13 +113,21 @@ class Dogs extends Component {
                 onChange={this.handleInputChange}
                 name="owner"
                 placeholder="Owner"/>
-              <Input
+              {/* <Input
                 value={this.state.location}
                 onChange={this.handleInputChange}
                 name="location"
-                placeholder="Location (required)"/>
-              
-<Dropdown  group isOpen = {this.state.dropdownOpen}size = "sm" toggle = {this.toggle} value = {this.select} name= "radius"> 
+                placeholder="Location (required)"/> */}
+              <PlacesAutocomplete 
+                inputProps={inputProps} 
+                placeholder="Location"/>
+
+              <Dropdown  
+                group isOpen = {this.state.dropdownOpen}
+                size = "sm" 
+                toggle = {this.toggle} 
+                value = {this.select} 
+                name= "radius"> 
     
 {/* <DropdownToggle caret>
   Dropdown 
