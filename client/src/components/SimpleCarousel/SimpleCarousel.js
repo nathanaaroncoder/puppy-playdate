@@ -192,12 +192,13 @@ class SimpleCarousel extends React.Component {
             {this.state.dogs.length ? (<UserProfile
           key={this.state.dogs[imageIdx]._id}
           id={this.state.dogs[imageIdx]._id}
-          name={this.state.dogs[imageIdx].local.username}
-          image={this.state.dogs[imageIdx].local.username}
-          occupation={this.state.dogs[imageIdx].dogName}
+          username={this.state.dogs[imageIdx].local.username}
+          image={this.state.dogs[imageIdx].local.image}
+          dogName={this.state.dogs[imageIdx].dogName}
           location={this.state.dogs[imageIdx].location}
           fixed={this.state.dogs[imageIdx].fixed}
-
+          places={this.state.dogs[imageIdx].places}
+          vetDate={this.state.dogs[imageIdx].vetDate}
             />) : (
               <h2>No Results to Display</h2>
             ) }

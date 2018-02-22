@@ -54,7 +54,7 @@ router.post('/logout', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-	const { username, password, dogName } = req.body
+	const { username, password, dogName, photo } = req.body
 	// ADD VALIDATION
 	User.findOne({ 'local.username': username }, (err, userMatch) => {
 		if (userMatch) {
@@ -65,7 +65,8 @@ router.post('/signup', (req, res) => {
 		const newUser = new User({
 			'local.username': username,
 			'local.password': password,
-			'dogName': dogName
+			'dogName': dogName,
+			'photo': photo
 		})
 		newUser.save((err, savedUser) => {
 			if (err) return res.json(err)
@@ -75,7 +76,7 @@ router.post('/signup', (req, res) => {
 })
 // {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}
 router.put('/signup', (req, res) => {
-	const { username, thisUser, thatUser, saidYes, saidNo, dogName, owner, sex, fixed, location, matches } = req.body;
+	const { username, thisUser, thatUser, saidYes, saidNo, dogName, owner, sex, fixed, location, matches, vetDate, places } = req.body;
 	if (saidNo){
 		User.findOneAndUpdate({ 'local.username': thisUser },{ $push: { 'saidNo': saidNo } }, { new: true })
 		.then(data => res.send(data))
@@ -103,7 +104,7 @@ router.put('/signup', (req, res) => {
 	}
 
 	if (dogName){
-		User.findOneAndUpdate({ 'local.username': username },{ 'dogName': dogName, 'owner': owner, 'sex': sex, 'fixed': fixed, 'location': location   }, { new: true })
+		User.findOneAndUpdate({ 'local.username': username },{ 'dogName': dogName, 'owner': owner, 'sex': sex, 'fixed': fixed, 'location': location, 'places': places, 'vetDate': vetDate   }, { new: true })
 		.then(data => {
 			console.log('data: ', data );
 			res.send(data);
