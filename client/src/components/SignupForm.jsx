@@ -12,6 +12,7 @@ class SignupForm extends Component {
 			username: '',
 			password: '',
 			confirmPassword: '',
+			photo: '',
 			redirectTo: null
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
@@ -28,7 +29,8 @@ class SignupForm extends Component {
 		axios
 			.post('/auth/signup', {
 				username: this.state.username,
-				password: this.state.password
+				password: this.state.password,
+				photo: this.state.photo
 			})
 			.then(response => {
 				console.log(response)
@@ -78,7 +80,15 @@ class SignupForm extends Component {
 					name="confirmPassword"
 					placeholder="Confirm Password"
 				  />
-				  <ImageUpload/>
+					{/* <ImageUpload/> */}
+					<label htmlFor="photo">Link to your profile picture: </label>
+					<Input
+					type="text"
+					value={this.state.photo}
+					onChange={this.handleChange}
+					name="photo"
+					placeholder="Photo URL"
+				  />
 				  <FormBtn
 					disabled={!(this.state.username && this.state.password && this.state.confirmPassword)}
 					onClick={this.handleSubmit}

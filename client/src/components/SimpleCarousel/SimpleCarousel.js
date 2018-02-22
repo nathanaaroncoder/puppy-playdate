@@ -216,8 +216,6 @@ class SimpleCarousel extends React.Component {
           places={this.state.dogs[imageIdx].places}
           vetDate={this.state.dogs[imageIdx].vetDate}
  
- 
-
             />) : (
               <h2>No Results to Display</h2>
             ) }

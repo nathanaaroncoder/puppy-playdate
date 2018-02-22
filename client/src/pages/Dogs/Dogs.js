@@ -10,7 +10,7 @@ import axios from 'axios';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
 import {Redirect} from "react-router-dom"
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete'
-
+import Avatar from "../../components/UserProfile/Avatar";
 
 class Dogs extends Component {
   constructor(props){
@@ -22,7 +22,7 @@ class Dogs extends Component {
       user: null,
       dogName: "",
       owner: "",
-      photos: [],
+      photo: "",
       sex: "",
       places: [],
       fixed: "",
@@ -44,10 +44,12 @@ class Dogs extends Component {
     axios.get('/auth/user')
       .then(res => {
         this.setState({ user: res.data.user.local.username }) 
+        this.setState({ photo: res.data.user.photo }) 
         console.log("res.data", res.data);
         console.log("user here", this.state.user);
       })
       .catch(err => console.log(err));
+
       // get the current user's info
     axios.get('/auth/signup').then(res => {
       console.log(res.data);
@@ -108,6 +110,7 @@ class Dogs extends Component {
 
 
       if (this.state.dogName && this.state.owner && this.state.sex) {
+
         console.log("this.state.vetDate in the put req", this.state.vetDate)
         console.log("this.state.places in the put req", this.state.places)
           axios //(need to add for photos)
@@ -138,6 +141,14 @@ class Dogs extends Component {
       <Container fluid>
         <Row>
           <Col size="md-6">
+            {/* <label> */}
+            <Avatar 
+                  image={this.state.photo ? this.state.photo : "https://img0.etsystatic.com/034/0/6643643/il_570xN.619857698_8val.jpg"}
+                  width={250}
+                  height={250}
+              />   
+              {/* Profile Picture
+            </label>         */}          
 
             <form>
 
@@ -171,6 +182,7 @@ class Dogs extends Component {
   Dropdown 
 </DropdownToggle> < DropdownMenu > ...</DropdownMenu> */}
              </Dropdown>
+
 
 
              <h3>Sex:</h3>
