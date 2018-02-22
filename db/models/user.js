@@ -21,7 +21,12 @@ const userSchema = new Schema({
 	owner: { type: String, unique: false },
 	sex: { type: String, unique: false },
 	fixed: { type: String, unique: false },
-	location: { type: String, unique: false }
+	//not sure about the type for location and radius
+	location: { type: String, unique: false },
+	radius: {type: String, unique: false },
+	vetDate: { type: String, unique: false },
+	places: {type: Array, unique: false }
+
 
 
 	// {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}

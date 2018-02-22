@@ -16,12 +16,14 @@ import "./UserProfile.css";
                  width={300}
                  height={300}
               /> 
-              <h2>Name: {info.name}</h2>
+              <h2>Name: {info.username}</h2>
               <h3>Location: {info.location}</h3>
-              <h3>Dog's Name: {info.occupation}</h3>
+              <h3>Dog's Name: {info.dogName}</h3>
             <hr />
               <p>Sex: {info.sex}</p>
               <p>Fixed: {info.fixed}</p>
+              <p>Last Vaccine: {info.vetDate}</p>
+              <p>Like to go to:  {info.places}</p>
           </div>
           
           <div className="bottom">

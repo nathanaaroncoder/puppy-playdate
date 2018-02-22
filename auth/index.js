@@ -75,7 +75,8 @@ router.post('/signup', (req, res) => {
 })
 // {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}
 router.put('/signup', (req, res) => {
-	const { username, thisUser, thatUser, saidYes, saidNo, dogName, owner, sex, fixed, location, matches } = req.body;
+	console.log("BODY******************", req.body);
+	const { username, thisUser, thatUser, saidYes, saidNo, dogName, owner, sex, fixed, location, matches, places, vetDate, image } = req.body;
 	if (saidNo){
 		User.findOneAndUpdate({ 'local.username': thisUser },{ $push: { 'saidNo': saidNo } }, { new: true })
 		.then(data => res.send(data))
@@ -103,9 +104,11 @@ router.put('/signup', (req, res) => {
 	}
 
 	if (dogName){
-		User.findOneAndUpdate({ 'local.username': username },{ 'dogName': dogName, 'owner': owner, 'sex': sex, 'fixed': fixed, 'location': location   }, { new: true })
+			console.log("vetDate", vetDate)
+
+		User.findOneAndUpdate({ 'local.username': username },{ 'dogName': dogName, 'owner': owner, 'sex': sex, 'fixed': fixed, 'location': location, 'places': places, 'vetDate': vetDate}, { new: true })
 		.then(data => {
-			console.log('data: ', data );
+			
 			res.send(data);
 		})
 		.catch(err => {
