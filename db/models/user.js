@@ -26,6 +26,7 @@ const userSchema = new Schema({
 	radius: {type: String, unique: false },
 	vetDate: { type: String, unique: false },
 	places: {type: Array, unique: false }
+
 	// {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}
 
 	// local: {

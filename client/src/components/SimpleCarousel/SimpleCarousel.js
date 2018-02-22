@@ -32,12 +32,12 @@ class SimpleCarousel extends React.Component {
     axios.get('/auth/user').then(response => {
       if (response.data.user) {
         this.setState({
-					user: response.data.user.local.username
+          user: response.data.user.local.username
         })
       }
     })
-		axios.get('/auth/signup').then(res => {
-			console.log(res.data);
+    axios.get('/auth/signup').then(res => {
+      console.log(res.data);
       const allDogs = res.data;
       // shuffles all the dogs
       const shuffled = allDogs.sort(() => Math.random() - 0.5);
@@ -87,8 +87,8 @@ class SimpleCarousel extends React.Component {
       // sets the state of dogs to the new list of all the filters
       this.setState({dogs: filteredList});
       console.log("excluding", filteredList);
-		
-		})
+    
+    })
   }
   
   componentDidMount(){
@@ -96,15 +96,14 @@ class SimpleCarousel extends React.Component {
   }
 
   componentDidUpdate() {
-		console.log("AFTER UPDATE", this.state.dogs);
-	}
+    console.log("AFTER UPDATE", this.state.dogs);
+  }
 
   onSwiped(direction) {
     const change = direction === RIGHT ? RIGHT : LEFT;
     const adjustedIdx = this.state.imageIdx + 1;
     let newIdx;
     let newThatUser;
-    let emptyDogs;
 
     if (adjustedIdx >= this.state.dogs.length) {
       newIdx = 0;
@@ -116,6 +115,7 @@ class SimpleCarousel extends React.Component {
     //doing imageIdx - 1 so that it grabs what was on the page before (not the one that just showed up)
     if (newIdx === 0){
       newThatUser = this.state.dogs[this.state.dogs.length - 1];
+      this.setState({ dogs: [] })
     } else {
       newThatUser = this.state.dogs[newIdx - 1];
     }
@@ -179,7 +179,11 @@ class SimpleCarousel extends React.Component {
     };
     return (
       <div className="swipeContainer">
+
+
         <div>Image: {imageIdx + 1}</div>
+
+        <div className="row" >
         <Swipeable 
           className="swipe"
           trackMouse
@@ -188,7 +192,18 @@ class SimpleCarousel extends React.Component {
           onSwipedLeft={()=>this.onSwiped(LEFT)}
           onSwipedRight={()=>this.onSwiped(RIGHT)}
         >
-          <div  >
+          
+
+          <div className=" col-xs-1" >
+           
+            <button
+              onClick={()=>this.onSwiped(LEFT)}
+              className="hollow float-left"
+              style={buttonStyles}>⇦</button>
+              </div>
+
+
+           <div className="col-xs-4" >
             {this.state.dogs.length ? (<UserProfile
           key={this.state.dogs[imageIdx]._id}
           id={this.state.dogs[imageIdx]._id}
@@ -197,25 +212,29 @@ class SimpleCarousel extends React.Component {
           dogName={this.state.dogs[imageIdx].dogName}
           location={this.state.dogs[imageIdx].location}
           fixed={this.state.dogs[imageIdx].fixed}
+          sex={this.state.dogs[imageIdx].sex}
           places={this.state.dogs[imageIdx].places}
           vetDate={this.state.dogs[imageIdx].vetDate}
+ 
             />) : (
               <h2>No Results to Display</h2>
             ) }
-           
-            <button
-              onClick={()=>this.onSwiped(RIGHT)}
-              className="hollow float-left"
-              style={buttonStyles}>⇦</button>
+             </div>
+
+
+<div className="col-xs-1" >
 
               <button
-              onClick={()=>this.onSwiped(LEFT)}
+              onClick={()=>this.onSwiped(RIGHT)}
               className="hollow float-right"
               style={buttonStyles}>⇨</button>
+
+              </div>
             
-            
-          </div>
+          
         </Swipeable>
+
+          </div>
        
       </div>
     )
