@@ -9,13 +9,16 @@ import "./UserProfile.css";
       if (!info) return null;
       
       return (
-       <div>
-          <div className="top">
+       
+          <div className="top row">
+            <div className="col-sm-6">
               <Avatar 
                  image={info.image} 
                  width={300}
                  height={300}
               /> 
+              </div>
+              <div className="col-sm-6 centerText" >
               <h2>Name: {info.username}</h2>
               <h3>Location: {info.location}</h3>
               <h3>Dog's Name: {info.dogName}</h3>
@@ -23,16 +26,11 @@ import "./UserProfile.css";
               <p>Sex: {info.sex}</p>
               <p>Fixed: {info.fixed}</p>
               <p>Last Vaccine: {info.vetDate}</p>
-              <p>Like to go to:  {info.places}</p>
+              <p>Likes to go to:  {info.places}</p>
+          </div>
           </div>
           
-          <div className="bottom">
-            <h4>About Me:</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat fugit quia pariatur est saepe necessitatibus, 
-            quibusdam reiciendis ratione voluptate atque in qui provident rem repellat soluta. Blanditiis repellat velit eligendi.
-</p>
-          </div>
-        </div>
+      
       );
     }
   }

@@ -194,7 +194,7 @@ class SimpleCarousel extends React.Component {
         >
           
 
-          <div className=" col-xs-1" >
+          <div className="col-xs-offset-2 col-xs-1" >
            
             <button
               onClick={()=>this.onSwiped(LEFT)}
@@ -203,12 +203,12 @@ class SimpleCarousel extends React.Component {
               </div>
 
 
-           <div className="col-xs-4" >
+           <div className="col-xs-6" >
             {this.state.dogs.length ? (<UserProfile
           key={this.state.dogs[imageIdx]._id}
           id={this.state.dogs[imageIdx]._id}
           username={this.state.dogs[imageIdx].local.username}
-          image={this.state.dogs[imageIdx].local.image}
+          image={this.state.dogs[imageIdx].photo}
           dogName={this.state.dogs[imageIdx].dogName}
           location={this.state.dogs[imageIdx].location}
           fixed={this.state.dogs[imageIdx].fixed}
