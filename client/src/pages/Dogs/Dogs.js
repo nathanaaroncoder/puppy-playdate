@@ -40,38 +40,28 @@ class Dogs extends Component {
   }
 
   loadUser = () => {
-    // get the current user
+    // get the current user info and display on profile page
     axios.get('/auth/user')
       .then(res => {
-        this.setState({ user: res.data.user.local.username }) 
-        this.setState({ photo: res.data.user.photo }) 
+
+        const userInfo = res.data.user
+        this.setState({ 
+          user: userInfo.local.username,
+          photo: userInfo.photo,
+          owner : userInfo.owner,
+          image : userInfo.image,
+          dogName: userInfo.dogName,
+          location: userInfo.location,
+          fixed: userInfo.fixed,
+          sex: userInfo.sex,
+          image: userInfo.image,
+          places: userInfo.places,
+          vetDate: userInfo.vetDate
+        }) 
         console.log("res.data", res.data);
         console.log("user here", this.state.user);
       })
       .catch(err => console.log(err));
-
-      // get the current user's info
-    axios.get('/auth/signup').then(res => {
-      console.log(res.data);
-      //gives you the current user's data from the whole list
-      const currentUserData = res.data.filter(dog => dog.local.username == this.state.user);
-      console.log("current user data", currentUserData[0]);
-      // setting the state from what is alrady in the database
-      // this way the information that was already entered is displayed in the input fields
-      this.setState({
-      owner : currentUserData[0].owner,
-      image : currentUserData[0].image,
-      dogName: currentUserData[0].dogName,
-      location: currentUserData[0].location,
-      fixed: currentUserData[0].fixed,
-      sex: currentUserData[0].sex,
-      image: currentUserData[0].image,
-      places: currentUserData[0].places,
-      vetDate: currentUserData[0].vetDate,   
-      })
-        
-     
-    })
   };
 
   placesChanged = (newPlaces) => {
