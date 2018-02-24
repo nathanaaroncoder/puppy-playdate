@@ -41,11 +41,11 @@ const DisplayLinks = props => {
 		return (
 			<nav className="navbar">
 				<ul className="nav">
-					<li className="nav-item">
+					{/* <li className="nav-item">
 						<Link to="/" className="nav-link">
 							Home
 						</Link>
-					</li>
+					</li> */}
 					<li className="nav-item">
 						<Link to="/login" className="nav-link">
 							Login
@@ -133,8 +133,6 @@ class App extends Component {
 					{/* LINKS to our different 'pages' */}
 					<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
 					{/*  ROUTES */}
-					{/* <Route exact path="/" component={Home} /> */}
-					<Route exact path="/" render={() => <Home user={this.state.user} />} />
 					<Route
 						exact
 						path="/login"
@@ -144,11 +142,6 @@ class App extends Component {
 								_googleSignin={this._googleSignin}
 							/>}
 					/>
-					{/*<Route exact path="/signup" component={SignupForm} />
-					<Route exact path="/books" component={Books} />
-					<Route exact path="/matches" component={Matches} />
-      		<Route exact path="/user" component={UserProfile} />*/}
-					{/* <LoginForm _login={this._login} /> */}
 				</div>
 				)
 		} else {
@@ -158,8 +151,11 @@ class App extends Component {
 					{/* LINKS to our different 'pages' */}
 					<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
 					{/*  ROUTES */}
-					{/* <Route exact path="/" component={Home} /> */}
-					<Route exact path="/" render={() => <Home user={this.state.user} />} />
+					<Route exact path="/" render={() =>
+							<LoginForm
+								_login={this._login}
+								_googleSignin={this._googleSignin}
+							/>} />
 					<Route
 						exact
 						path="/login"
@@ -178,8 +174,7 @@ class App extends Component {
 								_googleSignin={this._googleSignin}
 							/>}
 					/>
-	
-					{/* <LoginForm _login={this._login} /> */}
+
 				</div>
 				)
 
