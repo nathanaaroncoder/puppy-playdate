@@ -1,0 +1,23 @@
+.avatar{
+    /* margin-left:100px; */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.panel-heading{
+    background-color:#8c8ef0 !important;
+}
+
+.places{
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.btn-success{
+    margin-top:20px;
+}
+
+h3{
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
