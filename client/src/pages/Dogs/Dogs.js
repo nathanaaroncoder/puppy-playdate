@@ -8,9 +8,12 @@ import {Input, FormBtn} from "../../components/Form";
 import Dropdown from "../../components/Dropdown";
 import axios from 'axios';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
-import {Redirect} from "react-router-dom"
-import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete'
+import {Redirect} from "react-router-dom";
+import PlacesAutocomplete, {geocodeByAddress, getLatLng} from 'react-places-autocomplete';
 import Avatar from "../../components/UserProfile/Avatar";
+import Slider from 'react-rangeslider';
+
+import './style.css';
 
 class Dogs extends Component {
   constructor(props){
@@ -28,7 +31,7 @@ class Dogs extends Component {
       fixed: "",
       vetDate: "",
       location: "",
-      radius:"",
+      radius:5,
       redirectTo: null
     }
 
@@ -87,6 +90,20 @@ class Dogs extends Component {
   };
   // handleChange(date) {   this.setState({startDate: date}); }
 
+  handleChangeStart = () => {
+    console.log('Change event started')
+  };
+  
+  handleChange = radius => {
+    this.setState({radius: radius})
+    console.log(radius);
+  };
+  
+  handleChangeComplete = () => {
+    console.log('Change event completed')
+    console.log(this.state.radius);
+  };
+
   handleFormSubmit = event => {
     event.preventDefault();
     console.log(this.state);
@@ -127,10 +144,13 @@ class Dogs extends Component {
       value: this.state.location,
       onChange: this.onChange
     }    
+
+    const {radius} = this.state
+
     return (
       <Container fluid>
         <Row>
-          <Col size="md-6">
+          <Col size="md-4 sm-12">
             {/* <label> */}
             <Avatar 
                   image={this.state.photo ? this.state.photo : "https://img0.etsystatic.com/034/0/6643643/il_570xN.619857698_8val.jpg"}
@@ -140,97 +160,118 @@ class Dogs extends Component {
               {/* Profile Picture
             </label>         */}          
 
-            <form>
+          </Col>
+          <Col size="md-8 sm-12">
+          <div className= "panel panel-primary">
+            <div className="panel-heading">
+              <h3 class="panel-title">My Profile</h3>
+            </div>          
+            <div className="panel-body">
+              <form>
+                <h3>Dog Name:</h3>
+                <Input
+                  value={this.state.dogName}
+                  onChange={this.handleInputChange}
+                  name="dogName"
+                  placeholder="Dog Name (required)"/>
 
-              <Input
-                value={this.state.dogName}
-                onChange={this.handleInputChange}
-                name="dogName"
-                placeholder="Dog Name (required)"/>
-              <Input
-                value={this.state.owner}
-                onChange={this.handleInputChange}
-                name="owner"
-                placeholder="Owner"/>
-              {/* <Input
-                value={this.state.location}
-                onChange={this.handleInputChange}
-                name="location"
-                placeholder="Location (required)"/> */}
-              <PlacesAutocomplete 
-                inputProps={inputProps} 
-                placeholder="Location"/>
+                <h3>Owner:</h3>
+                <Input
+                  value={this.state.owner}
+                  onChange={this.handleInputChange}
+                  name="owner"
+                  placeholder="Owner"/>
 
-              <Dropdown  
-                group isOpen = {this.state.dropdownOpen}
-                size = "sm" 
-                toggle = {this.toggle} 
-                value = {this.select} 
-                name= "radius"> 
-    
-{/* <DropdownToggle caret>
-  Dropdown 
-</DropdownToggle> < DropdownMenu > ...</DropdownMenu> */}
-             </Dropdown>
+                <h3>Location:</h3>
+                <PlacesAutocomplete 
+                  inputProps={inputProps} 
+                  placeholder="Location"/>
 
+                {/* <div className='slider'>                */}
+                  <h3> Radius (Miles)</h3>
+                  <Slider
+                      name = "radius"
+                      min={0}
+                      max={25}
+                      step={5}
+                      value={radius}
+                      onChangeStart={this.handleChangeStart}
+                      onChange={this.handleChange}
+                      onChangeComplete={this.handleChangeComplete}/>
 
+                {/* </div>                   */}
 
-             <h3>Sex:</h3>
-              <div className="form-group">
-                <label>
-                  <input type="radio" name="sex" checked={this.state.sex=="male"} onChange={this.handleInputChange} value="male"/>
-                  Male
-                </label>
-              </div>
-              <div className="form-group">
-                <label>
-                  <input
-                    type="radio"
-                    name="sex"
-                    checked={this.state.sex=="female"}
-                    onChange={this.handleInputChange}
-                    value="female"/>
-                  Female
-                </label>
-              </div>
+                <Col size="md-3">
+                  <h3>Sex:</h3>
+                  <div className="form-group radio-inline">
+                    <label>
+                      <input 
+                        type="radio" 
+                        name="sex" 
+                        checked={this.state.sex=="male"} 
+                        onChange={this.handleInputChange} 
+                        value="male"/>
+                      Male
+                    </label>
+                  </div>
+                  <div className="form-group radio-inline">
+                    <label>
+                      <input
+                        type="radio"
+                        name="sex"
+                        checked={this.state.sex=="female"}
+                        onChange={this.handleInputChange}
+                        value="female"/>
+                      Female
+                    </label>
+                  </div>                
+                </Col>
 
-              <h3>Fixed?</h3>
-              <div className="form-group">
-                <label>
-                  <input type="radio" name="fixed" checked={this.state.fixed=="yes"} value="yes" onChange={this.handleInputChange}/>
-                  Yes
-                </label>
-              </div>
-              <div className="form-group">
-                <label>
-                  <input type="radio" name="fixed" checked={this.state.fixed=="no"} value="no" onChange={this.handleInputChange}/>
-                  No
-                </label>
-              </div>
-              <h3>
-                Last Vaccine</h3>
+                <Col size="md-2">
+                  <h3>Fixed?</h3>
+                  <div className="form-group radio-inline">
+                    <label>
+                      <input type="radio" name="fixed" checked={this.state.fixed=="yes"} value="yes" onChange={this.handleInputChange}/>
+                      Yes
+                    </label>
+                  </div>
+                  <div className="form-group radio-inline">
+                    <label>
+                      <input type="radio" name="fixed" checked={this.state.fixed=="no"} value="no" onChange={this.handleInputChange}/>
+                      No
+                    </label>
+                  </div>
+                </Col>
+                <Col size="md-3">
+                  <h3>Last Vaccine:</h3>
 
-              <div className="form-group">
-                <input type="date" name="vetDate" value={this.state.vetDate} onChange={this.handleInputChange}/>
-              </div>
+                  <div className="form-group">
+                    <input type="date" name="vetDate" value={this.state.vetDate} onChange={this.handleInputChange}/>
+                  </div>                
+                </Col>
 
-              <h3>Places</h3>
-              <CheckboxGroup
-                    checkboxDepth={2} // This is needed to optimize the checkbox group
-                    name="places"
-                    value={this.state.places}
-                    onChange={this.placesChanged}>
-                    <label><Checkbox name="places"  value="park"/> Park</label>
-                    <label><Checkbox name="places" value="beach"/> Beach</label>
-                    <label><Checkbox name="places" value="indoors"/> Indoors</label>
-              </CheckboxGroup>
-              <FormBtn
-                disabled={!(this.state.dogName && this.state.sex && this.state.location)}
-                onClick={this.handleFormSubmit}>
+                <Col size="md-4">
+                  <h3>Places:</h3>
+                  <CheckboxGroup
+                        checkboxDepth={2} // This is needed to optimize the checkbox group
+                        name="places"
+                        value={this.state.places}
+                        onChange={this.placesChanged}>
+                        <label className="places"><Checkbox name="places"  value="park"/> Park</label>
+                        <label className="places"><Checkbox name="places" value="beach"/> Beach</label>
+                        <label className="places"><Checkbox name="places" value="indoors"/> Indoors</label>
+                  </CheckboxGroup>
+                </Col>
+                <FormBtn
+                  disabled={!(this.state.dogName && this.state.sex && this.state.location)}
+                  onClick={this.handleFormSubmit}>
 
-                Submit Dog
-              </FormBtn>
-            </form>
+                  Save
+                </FormBtn>
+
+                </form>
+                </div>
+            </div>
           </Col>
         </Row>
       </Container >
