@@ -52,9 +52,6 @@ class SignupForm extends Component {
 		}
 		return (
 			<div className="SignupForm">
-				<Jumbotron>
-              		<h1>Sign Up</h1>
-            	</Jumbotron>
 				<form>
 				<label htmlFor="username">Username: </label>
 				  <Input

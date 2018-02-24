@@ -181,7 +181,7 @@ class SimpleCarousel extends React.Component {
       <div className="swipeContainer">
 
 
-        <div>Image: {imageIdx + 1}</div>
+        
 
         <div className="row" >
         <Swipeable 
@@ -194,16 +194,16 @@ class SimpleCarousel extends React.Component {
         >
           
 
-          <div className="col-xs-offset-2 col-xs-1" >
+          <div className="hidden-xs col-sm-offset-2 col-sm-1" >
            
             <button
               onClick={()=>this.onSwiped(LEFT)}
               className="hollow float-left"
-              style={buttonStyles}>⇦</button>
+              style={buttonStyles}> <img src={require('../../images/thumbs_down.png')} /></button>
               </div>
 
 
-           <div className="col-xs-6" >
+           <div className="col-xs-offset-1 col-xs-10 col-sm-6" >
             {this.state.dogs.length ? (<UserProfile
           key={this.state.dogs[imageIdx]._id}
           id={this.state.dogs[imageIdx]._id}
@@ -222,12 +222,12 @@ class SimpleCarousel extends React.Component {
              </div>
 
 
-<div className="col-xs-1" >
+<div className="hidden-xs col-sm-1" >
 
               <button
               onClick={()=>this.onSwiped(RIGHT)}
               className="hollow float-right"
-              style={buttonStyles}>⇨</button>
+              style={buttonStyles}><img src={require('../../images/thumbs_up.png')} /></button>
 
               </div>
             

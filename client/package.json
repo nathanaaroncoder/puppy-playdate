@@ -7,6 +7,7 @@
     "moment": "^2.20.1",
     "react": "^16.0.0",
     "react-big-calendar": "^0.18.0",
+    "react-bootstrap": "^0.32.1",
     "react-checkbox-group": "^4.0.1",
     "react-dom": "^16.0.0",
     "react-places-autocomplete": "^6.1.2",
