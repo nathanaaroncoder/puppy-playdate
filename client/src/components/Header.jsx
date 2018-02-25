@@ -22,11 +22,13 @@ const Header = props => {
 		<div className="Logo">
 			<div className="Header">
 				{Greeting}
-				<span id="logout">
+				{ props.user ?
+				(<span id="logout">
 					<a href="#" className="nav-link" onClick={props._logout}>
 						Logout &nbsp;
 					</a>
-				</span>
+				</span>) : (<div></div>)
+			}
 			</div>
 		</div>
 	)

@@ -13,16 +13,43 @@ class SignupForm extends Component {
 			password: '',
 			confirmPassword: '',
 			photo: '',
-			redirectTo: null
+			redirectTo: null,
+			allUsernames: []
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.handleChange = this.handleChange.bind(this)
 	}
+
+		findAllUsers = () => {
+
+		// get all the users
+	 	axios.get('/auth/signup').then(res => {
+	    console.log(res.data);
+	    const allUsers = res.data;
+
+	    // an array of just the usernames
+	    const usernames = allUsers.map(person => person.local.username);
+	    console.log("usernames", usernames);
+	    
+	    this.setState({
+	    	allUsernames: usernames
+	    })
+	    console.log("this.state.allUsernames", this.state.allUsernames)
+    
+    })
+
+	}
+
+	componentDidMount(){
+    this.findAllUsers();
+  }
+
 	handleChange(event) {
 		this.setState({
 			[event.target.name]: event.target.value
 		})
 	}
+
 	handleSubmit(event) {
 		event.preventDefault()
 		// TODO - validate!
@@ -43,9 +70,11 @@ class SignupForm extends Component {
 		})
 				} else {
 					console.log('duplicate')
+					console.log(response.data.error)
 				}
 			})
 	}
+
 	render() {
 		if (this.state.redirectTo) {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
@@ -54,6 +83,7 @@ class SignupForm extends Component {
 			<div className="SignupForm">
 				<form>
 				<label htmlFor="username">Username: </label>
+					{((this.state.allUsernames.includes(this.state.username))) ? <p style={{color:"red"}}>Username is taken</p> : <p></p> }
 				  <Input
 					type="text"
 					value={this.state.username}
@@ -70,6 +100,7 @@ class SignupForm extends Component {
 					placeholder="Password"
 				  />
 				  <label htmlFor="confirmPassword">Confirm Password: </label>
+				 		{(this.state.password === this.state.confirmPassword) ? <p></p> : <p style={{color:"red"}}>Passwords don't match</p> }
 				  <Input
 					type="password"
 					value={this.state.confirmPassword}
@@ -87,7 +118,9 @@ class SignupForm extends Component {
 					placeholder="Photo URL"
 				  />
 				  <FormBtn
-					disabled={!(this.state.username && this.state.password && this.state.confirmPassword)}
+					// if either username or passwors is not filled out
+				  // or if password and confirm password don't match
+					disabled={( !this.state.username || !this.state.password) || (this.state.password !== this.state.confirmPassword)}
 					onClick={this.handleSubmit}
 				  >
 					Sign Up
