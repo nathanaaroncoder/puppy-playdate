@@ -17,6 +17,7 @@ const PORT = process.env.PORT || 3001
 const corsPrefetch = require('cors-prefetch-middleware');
 const imagesUpload = require('images-upload-middleware');
 
+
 console.log("imagesUpload =========", imagesUpload)
 //For the image uploader
 app.post('/notmultiple', imagesUpload.default(
@@ -88,6 +89,8 @@ app.use(function(err, req, res, next) {
 })
 
 // ==== Starting Server =====
-app.listen(PORT, () => {
+server = app.listen(PORT, () => {
 	console.log(`App listening on PORT: ${PORT}`)
 })
+
+

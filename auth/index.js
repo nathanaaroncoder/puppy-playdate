@@ -77,7 +77,8 @@ router.post('/signup', (req, res) => {
 // {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}
 router.put('/signup', (req, res) => {
 
-	const { username, thisUser, thatUser, saidYes, saidNo, dogName, owner, sex, fixed, location, matches, places, vetDate, image, playdate } = req.body;
+	const { username, thisUser, thatUser, saidYes, saidNo, dogName, owner, sex, fixed, location, matches, places, vetDate, image, messages, playdate } = req.body;
+
 
 	if (saidNo){
 		User.findOneAndUpdate({ 'local.username': thisUser },{ $push: { 'saidNo': saidNo } }, { new: true })
@@ -130,6 +131,23 @@ router.put('/signup', (req, res) => {
 			console.log('error: ', data );
 			('Error: ', err)
 		});
+
+	if(messages){
+		console.log("This is where I'm trying to fix shit.", messages);
+		console.log(thisUser);
+		console.log(thatUser);
+		User.findOneAndUpdate({ 'local.username': thisUser },{ $push: { 'messages': messages } }, { new: true })
+		.then(data => {
+			console.log(data);
+			User.findOneAndUpdate({ 'local.username': thatUser },{ $push: { 'messages': messages } }, { new: true })
+			.then(response => {
+				console.log("data and response", data, response);
+				res.send("tahdah!");
+			})
+			.catch(err => ('Error: ', err))
+		})
+		.catch(error => ("Second error: ", error))
+
 	}
 })
 
@@ -148,6 +166,7 @@ router.get('/signup', function(req, res) {
 		res.json(err);
 	  });
    });
+
 
 
 module.exports = router
