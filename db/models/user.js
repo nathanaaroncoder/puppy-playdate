@@ -27,7 +27,8 @@ const userSchema = new Schema({
 	vetDate: { type: String, unique: false },
 	places: {type: Array, unique: false },
 	playdates: { type: Array },
-	messages: { type: Array }
+	messages: { type: Array },
+	latLng: { lat:[Number],lng:[Number] }
 
 
 	// {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}
