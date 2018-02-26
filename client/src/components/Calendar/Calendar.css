@@ -2,9 +2,15 @@
     height: 800px; 
     
   }
+
+
 @media only screen and (max-width : 600px) {
 
-  button{
-    color: blue;
+  .rbc-toolbar button{
+    width: 33px;
+    font-size: 8.5px;
+    white-space: normal;
+    padding: 0px;
+    height: 30px;
   }
 }
