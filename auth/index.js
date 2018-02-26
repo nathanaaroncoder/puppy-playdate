@@ -131,6 +131,7 @@ router.put('/signup', (req, res) => {
 			console.log('error: ', data );
 			('Error: ', err)
 		});
+	}
 
 	if(messages){
 		console.log("This is where I'm trying to fix shit.", messages);
