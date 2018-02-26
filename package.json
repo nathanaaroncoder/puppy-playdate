@@ -13,7 +13,8 @@
     "installDeps": "yarn && cd client && yarn"
   },
   "engines": {
-    "node": "v8.7.0"
+    "node": "v8.7.0",
+    "npm": "5.4.2"
   },
   "author": "",
   "license": "ISC",
