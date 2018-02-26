@@ -1,3 +1,13 @@
+body{
+	background: url("https://i.ytimg.com/vi/q5chhdaNQ88/maxresdefault.jpg") no-repeat center center fixed;
+	/* background-repeat: no-repeat;
+	background-size: auto; */
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;	
+}
+
 .navbar-brand{
 	margin: auto;
 	width: 100%;

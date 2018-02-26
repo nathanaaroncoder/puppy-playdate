@@ -1,4 +1,14 @@
 
 .card{
 	/*margin-left:30%;*/
+
+}
+
+#user-profile{
+	background-color: white;
+	opacity: 0.8;
+}
+
+.profileImage{
+	opacity: 1.0;
 }
