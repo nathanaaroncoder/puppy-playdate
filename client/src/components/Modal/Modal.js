@@ -51,29 +51,9 @@ class CalendarModal extends React.Component {
       this.setState({[name]: value});
     }
 
-    handleFormSubmit = event => {
-
-      const playdate = {
-        pdName: this.state.pdName, 
-        pdLocation: this.state.pdLocation, 
-        pdDate: this.state.pdDate, 
-        start: this.state.start, 
-        end: this.state.end 
-      }
-
-      event.preventDefault();
-      console.log(this.state);
-      this.handleClose();
-      if (this.state.pdName && this.state.pdDate && this.state.start && this.state.end) {
-        
-          axios
-            .put('/auth/signup', { username: this.state.user, playdate: playdate })
-            .then(res => {
-              console.log("res", res);
-              window.location.reload();
-            })
-            .catch(err => console.log('Axios err: ', err));
-        }
+    closeAndSave = () => {
+      this.props.handleFormSubmit();
+      this.handleClose();      
     }
   
     render() {
@@ -86,16 +66,17 @@ class CalendarModal extends React.Component {
   
       return (
         <div>
-  
-          <Button bsStyle="success" bsSize="large" onClick={this.handleShow}>
+          <div className='text-center'>
+          <Button id='modal-button' bsStyle="success" bsSize="medium" onClick={this.handleShow}>
             New Playdate
           </Button>
+          </div>
   
           <Modal id='calendar-modal' show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
               <Modal.Title><Input
-                value={this.state.pdName}
-                onChange={this.handleInputChange}
+                value={this.props.pdName}
+                onChange={this.props.handleInputChange}
                 name="pdName"
                 placeholder="Who's your playdate with?"/></Modal.Title>
             </Modal.Header>
@@ -103,26 +84,26 @@ class CalendarModal extends React.Component {
               <form>
 
               <Input
-                value={this.state.pdLocation}
-                onChange={this.handleInputChange}
+                value={this.props.pdLocation}
+                onChange={this.props.handleInputChange}
                 name="pdLocation"
                 placeholder="Where are you meeting?"/>
 
 
               <div className="form-group">
-                 <input type="date" name="pdDate" value={this.state.pdDate} onChange={this.handleInputChange}/>
+                 <input type="date" name="pdDate" value={this.props.pdDate} onChange={this.props.handleInputChange}/>
               </div>
               <div className="form-group">
-                 <input type="time" name="start" value={this.state.start} onChange={this.handleInputChange}/>
+                 <input type="time" name="start" value={this.props.start} onChange={this.props.handleInputChange}/>
               </div>
               <div className="form-group">
-                 <input type="time" name="end" value={this.state.end} onChange={this.handleInputChange}/>
+                 <input type="time" name="end" value={this.props.end} onChange={this.props.handleInputChange}/>
               </div>
             </form>
              
             </Modal.Body>
             <Modal.Footer>
-              <FormBtn onClick={this.handleFormSubmit}>Save This Playdate</FormBtn>
+              <FormBtn onClick={this.closeAndSave}>Save This Playdate</FormBtn>
             </Modal.Footer>
           </Modal>
         </div>

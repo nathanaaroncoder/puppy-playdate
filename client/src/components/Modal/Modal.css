@@ -4,3 +4,14 @@
     width: 375px;
 }
 }
+
+#modal-button{
+    margin-bottom: 10px;
+    margin-top: -10px;
+    background-color: #8d91ee;
+    border: 0px;
+}
+
+#modal-button:hover{
+    background-color: #6d73ea;
+}
