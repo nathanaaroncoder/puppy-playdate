@@ -11,8 +11,7 @@ body {
   border-radius: 5px;
   text-align: center;
   overflow: hidden;
-  box-shadow: 2px 2px 5px #000;
-  border: 1px solid #000;
+  box-shadow: 1px 1px 3px #000;
 }
   
 hr {

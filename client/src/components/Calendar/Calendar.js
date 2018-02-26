@@ -17,14 +17,67 @@ BigCalendar.momentLocalizer(moment);
 let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 
 class MyCalendar extends React.Component {
-  constructor(){
-    super()
+  constructor(props, context){
+    super(props, context);
+
+    // this.handleShow = this.handleShow.bind(this);
+    // this.handleClose = this.handleClose.bind(this);
+
     this.state = {
-      events: setEvents
+      events: setEvents,
+      user: null,
+      pdName: "",
+      pdLocation: "",
+      pdDate: "",
+      start: "",
+      end: ""
     }
   }
   componentDidMount() {
       this.loadPlaydates();
+  }
+
+  // handleShow() {
+  //   this.setState({ show: true });
+  // }
+
+  handleInputChange = event => {
+    const {name, value} = event.target;
+    this.setState({[name]: value});
+  }
+
+  handleFormSubmit = event => {
+
+    const playdate = {
+      pdName: this.state.pdName, 
+      pdLocation: this.state.pdLocation, 
+      pdDate: this.state.pdDate, 
+      start: this.state.start, 
+      end: this.state.end 
+    }
+
+    // event.preventDefault();
+    console.log(this.state);
+    // this.handleClose();
+    if (this.state.pdName && this.state.pdDate && this.state.start && this.state.end) {
+      
+        axios
+          .put('/auth/signup', { username: this.state.user, playdate: playdate })
+          .then(res => {
+            console.log("res", res);
+            this.loadPlaydates();
+            this.resetInput();
+          })
+          .catch(err => console.log('Axios err: ', err));
+      }
+  }
+
+  resetInput = () => {
+    this.setState({ pdName: "" });
+    this.setState({ pdLocation: "" });
+    this.setState({ pdDate: "" });
+    this.setState({ start: "" });
+    this.setState({ end: "" });
   }
 
   loadPlaydates = () => {
@@ -82,7 +135,7 @@ class MyCalendar extends React.Component {
           const formatPlaydate = {
             id: i + 1,
             title: `Playdate with ${playdate.pdName} at ${playdate.pdLocation}`,
-            // the start and end times use the seven numbers from their respective
+            // the start and end times use the six numbers from their respective
             // arrays (could this get looped through for drier code?)
             start: new Date (formatStart[0], formatStart[1], formatStart[2], formatStart[3], formatStart[4], formatStart[5]),
             end: new Date (formatEnd[0], formatEnd[1], formatEnd[2], formatEnd[3], formatEnd[4], formatEnd[5])
@@ -107,7 +160,15 @@ class MyCalendar extends React.Component {
 render(){ 
   return( 
       <div>
-        <CalendarModal/>
+        <CalendarModal 
+        handleFormSubmit={this.handleFormSubmit}
+        pdName={this.state.pdName}
+        handleInputChange={this.handleInputChange}
+        pdLocation={this.state.pdLocation}
+        pdDate={this.state.pdDate}
+        start={this.state.start}
+        end={this.state.end}
+        />
 
         <BigCalendar
         events={this.state.events}
