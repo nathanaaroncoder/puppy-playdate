@@ -12,9 +12,11 @@ const RIGHT = 'right';
 const LEFT = 'left';
 
 const buttonStyles = {
-  height: IMG_HEIGHT,
-  color: "#eeeeee",
+  height: "350px",
+  color: "white",
   fontSize: "2em",
+  border: "0px",
+  marginLeft: "0px;"
 };
 
 class SimpleCarousel extends React.Component {
@@ -184,7 +186,7 @@ class SimpleCarousel extends React.Component {
         
 
         <div className="row" >
-        <Swipeable 
+        {this.state.dogs.length ? (<Swipeable 
           className="swipe"
           trackMouse
           style={{ touchAction: 'none' }}
@@ -194,45 +196,46 @@ class SimpleCarousel extends React.Component {
         >
           
 
-          <div className="hidden-xs col-sm-offset-2 col-sm-1" >
+          <div className="hidden-xs col-sm-offset-1 col-sm-1" style={{ textAlign: "center" }} >
            
             <button
               onClick={()=>this.onSwiped(LEFT)}
-              className="hollow float-left"
+              className="hollow"
               style={buttonStyles}> <img src={require('../../images/thumbs_down.png')} /></button>
               </div>
 
 
-           <div className="col-xs-offset-1 col-xs-10 col-sm-6" >
-            {this.state.dogs.length ? (<UserProfile
-          key={this.state.dogs[imageIdx]._id}
-          id={this.state.dogs[imageIdx]._id}
-          username={this.state.dogs[imageIdx].local.username}
-          image={this.state.dogs[imageIdx].photo}
-          dogName={this.state.dogs[imageIdx].dogName}
-          location={this.state.dogs[imageIdx].location}
-          fixed={this.state.dogs[imageIdx].fixed}
-          sex={this.state.dogs[imageIdx].sex}
-          places={this.state.dogs[imageIdx].places}
-          vetDate={this.state.dogs[imageIdx].vetDate}
+           <div className="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-8" >
+            <UserProfile
+              key={this.state.dogs[imageIdx]._id}
+              id={this.state.dogs[imageIdx]._id}
+              username={this.state.dogs[imageIdx].local.username}
+              image={this.state.dogs[imageIdx].photo}
+              dogName={this.state.dogs[imageIdx].dogName}
+              location={this.state.dogs[imageIdx].location}
+              fixed={this.state.dogs[imageIdx].fixed}
+              sex={this.state.dogs[imageIdx].sex}
+              places={this.state.dogs[imageIdx].places.join(", ")}              
+              vetDate={this.state.dogs[imageIdx].vetDate}
  
-            />) : (
-              <h2>No Results to Display</h2>
-            ) }
+            />
              </div>
 
 
-<div className="hidden-xs col-sm-1" >
+          <div className="hidden-xs col-sm-1" style={{ textAlign: "center" }}>
 
               <button
               onClick={()=>this.onSwiped(RIGHT)}
-              className="hollow float-right"
+              className="hollow"
               style={buttonStyles}><img src={require('../../images/thumbs_up.png')} /></button>
 
               </div>
             
           
         </Swipeable>
+        ) : (
+          <h2 style={{ textAlign: "center", marginTop: "100px" }}>No more potential pups. Not to worry though. You can message your matches <a href="/messages">here</a></h2>
+        ) }
 
           </div>
        
