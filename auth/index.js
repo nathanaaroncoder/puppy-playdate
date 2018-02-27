@@ -56,6 +56,8 @@ router.post('/logout', (req, res) => {
 
 router.post('/signup', (req, res) => {
 	const { username, password } = req.body
+	console.log("********************",req.body);
+	console.log("$$$$$$$$$$$$$$$$$$$$$",req.files["photo"]);
 	// ADD VALIDATION
 	User.findOne({ 'local.username': username }, (err, userMatch) => {
 		if (userMatch) {
@@ -64,24 +66,35 @@ router.post('/signup', (req, res) => {
 			})
 		}
 
-		uploader.upload("local", req.files["photo"], function(err, files) {
-	    console.log(files);
-	    if (err) {
-	      return next(err);
-	    }
+		const newUser = new User({
+					'local.username': username,
+					'local.password': password
+				});
 
-			const newUser = new User({
-				'local.username': username,
-				'local.password': password,
-				'photo': files[0].url
+		if(req.files[0]){
+			uploader.upload("local", req.files["photo"], function(err, files) {
+		    console.log(files);
+		    if (err) {
+
+		      return next(err);
+		    }
+
+				newUser.photo = files[0].url;
+
+				newUser.save((err, savedUser) => {
+					if (err) return res.json(err)
+					return res.json(savedUser)
+				});
+
 			});
-
+		}else{
 			newUser.save((err, savedUser) => {
-				if (err) return res.json(err)
-				return res.json(savedUser)
-			});
+					if (err) return res.json(err)
+					return res.json(savedUser)
+				});
+		}
 
-		});
+		
 	})
 })
 // {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}

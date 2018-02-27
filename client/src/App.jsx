@@ -21,24 +21,18 @@ import Calendar from "./pages/Calendar";
 const DisplayLinks = props => {
 	if (props.loggedIn) {
 		return (
-			<Router>
-  <div>
-    <Nav />
-    <Switch>
-      <Route exact path="/matches" component={Matches} />
-      <Route path="/user_profile/" component={Dogs} />
-      <Route exact path="/messages" component={Messages}/>
-      <Route exact path="/calendar" component={Calendar}/>
-      <Route exact path="/" component={Matches}/>
-    <Route component={NoMatch} />
+  			<div>
+			    <Nav />
+			    <Switch>
+			      <Route exact path="/matches" component={Matches} />
+			      <Route exact path="/user_profile" component={Dogs} />
+			      <Route exact path="/messages" component={Messages}/>
+			      <Route exact path="/calendar" component={Calendar}/>
+			    	<Route component={NoMatch} />
 
-    {/* <Books /> */}
- 			</Switch>
-
-			
-
-			</div>
-			  </Router>
+			    {/* <Books /> */}
+		 			</Switch>
+				</div>
 		)
 	} else {
 		return (
@@ -77,28 +71,39 @@ class App extends Component {
 			errorMessage: "",
 			username: "",
 			password: "",
-			redirectTo: ""
+			confirmPassword: "",
+			redirectTo: "",
+			photo: null,
+			allUsernames: []
 		}
 		this._logout = this._logout.bind(this)
 		this._login = this._login.bind(this)
 	}
 
 	componentDidMount() {
-		axios.get('/auth/user').then(response => {
-			console.log(response.data)
-			if (!!response.data.user) {
-				console.log('THERE IS A USER')
-				this.setState({
-					loggedIn: true,
-					user: response.data.user
-				})
+		const allUsersPromise = axios.get('/auth/signup');
+		const currentUserPromise = axios.get('/auth/user');
+
+		Promise.all([allUsersPromise, currentUserPromise])
+		.then(response => {
+			const newState = {};
+
+			if (!!response[1].data.user) {
+
+				newState.loggedIn = true;
+				newState.user = response[1].data.user;
 			} else {
-				this.setState({
-					loggedIn: false,
-					user: null
-				})
+				newState.loggedIn = false;
+				newState.user = null;
 			}
-		})
+
+			const allUsers = response[0].data;
+
+	    // an array of just the usernames
+	    newState.allUsernames = allUsers.map(person => person.local.username);
+
+	    this.setState(newState);
+		});
 	}
 
 	_logout(event) {
@@ -109,15 +114,16 @@ class App extends Component {
 			if (response.status === 200) {
 				this.setState({
 					loggedIn: false,
-					user: null
+					user: null,
+					redirectTo: "",
+					username: "",
+					password: ""
 				})
 			}
 		})
 	}
 
-	_login = (event) => {
-		event.preventDefault();
-
+	_login = (redirectUrl) => {
 		axios
 			.post('/auth/login', {
 				username: this.state.username,
@@ -125,16 +131,19 @@ class App extends Component {
 			})
 			.then(response => {
 				console.log(response)
+				const newState = {
+					loggedIn: true,
+					user: response.data.user,
+					errorMessage: "",
+					username: "",
+					password: "",
+					redirectTo: redirectUrl
+				};
+
 				if (response.status === 200) {
+					console.log("NEW STATE ON LOGIN", newState);
 					// update the state
-					this.setState({
-						loggedIn: true,
-						user: response.data.user,
-						errorMessage: "",
-						username: "",
-						password: "",
-						redirectTo: "/matches"
-					})
+					this.setState(newState);
 				}
 			}).catch(error => {
 						console.log("Hit Error!", error);
@@ -147,9 +156,18 @@ class App extends Component {
 	}
 
 	handleChange = (event) => {
-		this.setState({
+		if (event.target.name == "photo"){
+			console.log("event.target...", event.target.files[0])
+			this.setState({
+				photo: event.target.files[0]
+			});
+		}
+		else{
+			this.setState({
 			[event.target.name]: event.target.value
 		})
+		}
+		
 	}
 
 	render() {
@@ -174,6 +192,23 @@ class App extends Component {
 								handleChange={this.handleChange}
 								_googleSignin={this._googleSignin}
 								errorMessage={this.state.errorMessage}
+							/>}
+					/>
+					<Route
+						exact
+						path="/signup"
+						render={() =>
+							<SignupForm
+								username={this.state.username}
+								password={this.state.password}
+								redirectTo={this.state.redirectTo}
+								handleChange={this.handleChange}
+								confirmPassword={this.state.confirmPassword}
+								allUsernames={this.state.allUsernames}
+								photo={this.state.photo}
+								login={this._login}
+								_googleSignin={this._googleSignin}
+
 							/>}
 					/>
 				</div>
@@ -218,8 +253,16 @@ class App extends Component {
 						path="/signup"
 						render={() =>
 							<SignupForm
-								_login={this._login}
+								username={this.state.username}
+								password={this.state.password}
+								redirectTo={this.state.redirectTo}
+								handleChange={this.handleChange}
+								confirmPassword={this.state.confirmPassword}
+								allUsernames={this.state.allUsernames}
+								photo={this.state.photo}
+								login={this._login}
 								_googleSignin={this._googleSignin}
+
 							/>}
 					/>
 					</div>
