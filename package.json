@@ -35,7 +35,7 @@
     "passport-google-oauth": "^1.0.0",
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
-    "react-images-uploader": "^1.1.0",
+    "path": "^0.12.7",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-image-uploader": "^1.0.0",
