@@ -37,7 +37,8 @@ class LoginForm extends Component {
 		} else {
 			return (
 				<div className="LoginForm">
-					<h1>Login form</h1>
+					<center><h1>Login form</h1></center>
+					<br/>
 					<form>
 						<label htmlFor="username">Username: </label>
 						<input
@@ -45,15 +46,17 @@ class LoginForm extends Component {
 							name="username"
 							value={this.state.username}
 							onChange={this.handleChange}
-						/>
+							className="form-control"
+						/><br/>
 						<label htmlFor="password">Password: </label>
 						<input
 							type="password"
 							name="password"
 							value={this.state.password}
 							onChange={this.handleChange}
-						/>
-						<button onClick={this.handleSubmit}>Login</button>
+							className="form-control"
+						/><br/>
+						<center><button className="btn btn-primary" onClick={this.handleSubmit}>Login</button></center>
 					</form>
 				
 				</div>
