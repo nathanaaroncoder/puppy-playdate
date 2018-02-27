@@ -123,6 +123,8 @@ class SignupForm extends Component {
 		}
 		return (
 			<div className="SignupForm">
+				<center><h1>Sign Up</h1></center>
+				<br/>
 				<form>
 				<label htmlFor="username">Username: </label>
 					{((this.state.allUsernames.includes(this.state.username))) ? <p style={{color:"red"}}>Username is taken</p> : <p></p> }
@@ -152,6 +154,7 @@ class SignupForm extends Component {
 				  />
 					{/* <ImageUpload/> */}
 					<label htmlFor="photo">Link to your profile picture: </label>
+
 					
 				  
     <Input type="file" 
@@ -163,13 +166,15 @@ class SignupForm extends Component {
     
 
 				  <FormBtn
+
 					// if either username or passwors is not filled out
 				  // or if password and confirm password don't match
 					disabled={( !this.state.username || !this.state.password) || (this.state.password !== this.state.confirmPassword)}
 					onClick={this.handleSubmit}
+					className="btn"
 				  >
 					Sign Up
-				  </FormBtn>
+				  </FormBtn></center>
 				</form>
 			</div>
 		)

@@ -17,10 +17,19 @@ const PORT = process.env.PORT || 3001
 const corsPrefetch = require('cors-prefetch-middleware');
 const imagesUpload = require('images-upload-middleware');
 
+<<<<<<< HEAD
 
 const path = require("path");
 const uploader = require("express-fileuploader");/*MAIN PACKAGE TO UPLOAD*/
 const multiparty = require("connect-multiparty"); /*MUST INSTALL THIS ADDITIONAL PACKAGE*/
+=======
+console.log("imagesUpload =========", imagesUpload)
+//For the image uploader
+app.post('/notmultiple', imagesUpload.default(
+    './server/static/files',
+    'http://localhost:3001/static/files'
+));
+>>>>>>> master
 
 // ===== Middleware ====
 app.use(morgan('dev'))
@@ -43,6 +52,7 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session()) // will call the deserializeUser
 
+<<<<<<< HEAD
 
 app.use("/auth/signup", multiparty());
 
@@ -77,14 +87,16 @@ uploader.use(
 // 		res.redirect('/')
 // 	}
 // )
+=======
+>>>>>>> master
 
 // ==== if its production environment!
 if (process.env.NODE_ENV === 'production') {
 	const path = require('path')
 	console.log('YOU ARE IN THE PRODUCTION ENV')
-	app.use('/static', express.static(path.join(__dirname, '../build/static')))
+	app.use('/static', express.static(path.join(__dirname, './client/build/static')))
 	app.get('/', (req, res) => {
-		res.sendFile(path.join(__dirname, '../build/'))
+		res.sendFile(path.join(__dirname, './client/build/'))
 	})
 }
 
@@ -105,8 +117,6 @@ app.use(function(err, req, res, next) {
 })
 
 // ==== Starting Server =====
-server = app.listen(PORT, () => {
+app.listen(PORT, () => {
 	console.log(`App listening on PORT: ${PORT}`)
 })
-
-

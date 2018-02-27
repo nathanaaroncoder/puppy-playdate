@@ -1,0 +1,71 @@
+body{
+	background: url("https://i.ytimg.com/vi/q5chhdaNQ88/maxresdefault.jpg") no-repeat center center fixed;
+	/* background-repeat: no-repeat;
+	background-size: auto; */
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;	
+}
+
+.navbar-brand{
+	margin: auto;
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 12.5%;
+	padding-bottom: 12.5%;
+	height: 50%;
+
+}
+
+i.icon-large{
+	margin-left: 50%;
+	margin-right: 50%;
+}
+
+span#nav-icons{
+	margin-left: 50%;
+	margin-right: 50%;
+	padding: 0;
+	color: black;		
+}
+
+.Header{
+	text-align: right;
+}
+
+#logout, #greeting{
+	text-align: right;
+}
+
+.Logo{
+	background-image: url("logo.png");
+	background-position: 0; 
+	background-repeat: no-repeat;
+	height: 90px;
+	width: auto;
+}
+
+.navbar-inverse {
+    background-color: #6467ebbd;
+    border-color: #6467ebcc;
+}
+
+a:hover, a:focus, #nav-icons:hover, #nav-icons:focus, .navbar-inverse:hover, .navbar-inverse:focus, .navbar-brand:focus, .navbar-brand:hover {
+    background-color: #6467ebcc;
+    border-color: #6467ebcc;
+    color: #6467ebcc;
+}
+
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-brand:focus {
+background-color: #6467ebcc;
+    border-color: #6467ebcc;
+    color: #6467ebcc;
+}
+
+a{
+	color: #6467ebcc;
+}
+

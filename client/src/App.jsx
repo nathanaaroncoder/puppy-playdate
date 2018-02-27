@@ -183,6 +183,8 @@ class App extends Component {
 				<div className="App">
 					<Header user={this.state.user} />
 					{/* LINKS to our different 'pages' */}
+				<div className="main-container">
+				<div className="subcontainer">
 					<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
 					{/*  ROUTES */}
 					<Route exact path="/" render={() =>
@@ -220,7 +222,8 @@ class App extends Component {
 								_googleSignin={this._googleSignin}
 							/>}
 					/>
-
+					</div>
+					</div>
 				</div>
 				)
 
