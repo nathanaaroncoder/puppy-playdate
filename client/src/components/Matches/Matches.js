@@ -6,6 +6,7 @@ import SimpleCarousel from "../SimpleCarousel"
 // The ...props means, spread all of the passed props onto this element
 // That way we don't have to define them all individually
 const Matches = props => (
+	<div className="matches-container">
 	<div className="card">
     <div className="img-container">
     
@@ -15,6 +16,7 @@ const Matches = props => (
     </div>
     
     
+  </div>
   </div>
 );
 
