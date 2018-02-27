@@ -100,7 +100,7 @@ router.post('/signup', (req, res) => {
 // {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}
 router.put('/signup', (req, res) => {
 
-	const { username, thisUser, thatUser, saidYes, saidNo, dogName, owner, sex, fixed, location, matches, places, vetDate, image, messages, playdate } = req.body;
+	const { username, thisUser, thatUser, saidYes, saidNo, dogName, owner, sex, fixed, location, matches, places, vetDate, image, messages, playdate, radius, lat, lng } = req.body;
 
 
 	if (saidNo){
@@ -122,7 +122,7 @@ router.put('/signup', (req, res) => {
 			User.findOneAndUpdate({ 'local.username': thatUser },{ $push: { 'matches': thisUser } }, { new: true })
 			.then(response => {
 				console.log("data and response", data, response);
-				res.send(data, response);
+				res.send("Success!");
 			})
 			.catch(err => ('Error: ', err))
 		})
@@ -132,7 +132,7 @@ router.put('/signup', (req, res) => {
 	if (dogName){
 
 
-		User.findOneAndUpdate({ 'local.username': username },{ 'dogName': dogName, 'owner': owner, 'sex': sex, 'fixed': fixed, 'location': location, 'places': places, 'vetDate': vetDate}, { new: true })
+		User.findOneAndUpdate({ 'local.username': username },{ 'dogName': dogName, 'owner': owner, 'sex': sex, 'fixed': fixed, 'location': location, 'places': places, 'vetDate': vetDate, 'lng': lng, 'lat': lat, 'radius': radius}, { new: true })
 
 		.then(data => {
 			
