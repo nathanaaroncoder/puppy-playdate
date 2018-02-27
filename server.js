@@ -19,10 +19,10 @@ const imagesUpload = require('images-upload-middleware');
 
 console.log("imagesUpload =========", imagesUpload)
 //For the image uploader
-app.post('/notmultiple', imagesUpload.default(
-    './server/static/files',
-    'http://localhost:3001/static/files'
-));
+// app.post('/notmultiple', imagesUpload.default(
+//     './server/static/files',
+//     'http://localhost:3001/static/files'
+// ));
 
 // ===== Middleware ====
 app.use(morgan('dev'))
@@ -51,7 +51,7 @@ if (process.env.NODE_ENV === 'production') {
 	const path = require('path')
 	console.log('YOU ARE IN THE PRODUCTION ENV')
 	app.use('/static', express.static(path.join(__dirname, './client/build/static')))
-	app.get('/', (req, res) => {
+	app.get('*', (req, res) => {
 		res.sendFile(path.join(__dirname, './client/build/'))
 	})
 }
