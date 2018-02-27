@@ -17,12 +17,19 @@ const PORT = process.env.PORT || 3001
 const corsPrefetch = require('cors-prefetch-middleware');
 const imagesUpload = require('images-upload-middleware');
 
+<<<<<<< HEAD
+
+const path = require("path");
+const uploader = require("express-fileuploader");/*MAIN PACKAGE TO UPLOAD*/
+const multiparty = require("connect-multiparty"); /*MUST INSTALL THIS ADDITIONAL PACKAGE*/
+=======
 console.log("imagesUpload =========", imagesUpload)
 //For the image uploader
 app.post('/notmultiple', imagesUpload.default(
     './server/static/files',
     'http://localhost:3001/static/files'
 ));
+>>>>>>> master
 
 // ===== Middleware ====
 app.use(morgan('dev'))
@@ -45,6 +52,43 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session()) // will call the deserializeUser
 
+<<<<<<< HEAD
+
+app.use("/auth/signup", multiparty());
+
+
+//Setting up the upload directory and the base url for image link
+uploader.use(
+  new uploader.LocalStrategy({
+    uploadPath: "/uploads",
+    baseUrl: `http://127.0.0.1:${PORT}/uploads/`
+  })
+);
+
+
+// ===== testing middleware =====
+// app.use(function(req, res, next) {
+// 	console.log('===== passport user =======')
+// 	console.log(req.session)
+// 	console.log(req.user)
+// 	console.log('===== END =======')
+// 	next()
+// })
+// testing
+// app.get(
+// 	'/auth/google/callback',
+// 	(req, res, next) => {
+// 		console.log(`req.user: ${req.user}`)
+// 		console.log('======= /auth/google/callback was called! =====')
+// 		next()
+// 	},
+// 	passport.authenticate('google', { failureRedirect: '/login' }),
+// 	(req, res) => {
+// 		res.redirect('/')
+// 	}
+// )
+=======
+>>>>>>> master
 
 // ==== if its production environment!
 if (process.env.NODE_ENV === 'production') {
@@ -57,6 +101,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 /* Express app ROUTING */
+
+//Route for profile image retrieval
+app.get("/uploads/:id", (req, res) => {
+  res.sendFile(path.join(__dirname, `uploads/${req.params.id}`));
+});
+
 app.use('/auth', require('./auth'))
 
 // ====== Error handler ====
