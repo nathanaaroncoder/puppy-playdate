@@ -32,7 +32,9 @@ class Dogs extends Component {
       vetDate: "",
       location: "",
       radius:5,
-      redirectTo: null
+      redirectTo: null,
+      lat: "",
+      lng: ""
     }
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -59,7 +61,10 @@ class Dogs extends Component {
           sex: userInfo.sex,
           image: userInfo.image,
           places: userInfo.places,
-          vetDate: userInfo.vetDate
+          vetDate: userInfo.vetDate,
+          lat: userInfo.lat,
+          lng: userInfo.lng
+
         }) 
         console.log("res.data", res.data);
         console.log("user here", this.state.user);
@@ -108,32 +113,39 @@ class Dogs extends Component {
     event.preventDefault();
     console.log(this.state);
 
-    // geocodeByAddress(this.state.location)
-    // .then(results => getLatLng(results[0]))
-    // .then(latLng => {
-    //   this.setState({
-    //     location: latLng
-    //   });
-
-
-      if (this.state.dogName && this.state.owner && this.state.sex) {
-
-        console.log("this.state.vetDate in the put req", this.state.vetDate)
-        console.log("this.state.places in the put req", this.state.places)
+    if (this.state.dogName && this.state.owner && this.state.sex) {
+      geocodeByAddress(this.state.location)
+        .then(results => getLatLng(results[0]))
+        .then(latLng => {
+          
+          console.log(latLng)
+          const {lat, lng} = latLng;
+          this.setState({lat, lng});
+          console.log('====>this is the state when submit is hit: ', this.state);
+          console.log("this.state.vetDate in the put req", this.state.vetDate)
+          console.log("this.state.places in the put req", this.state.places)
           axios //(need to add for photos)
-            .put('/auth/signup', {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location, places: this.state.places, vetDate: this.state.vetDate, radius: this.state.radius})
+            .put('/auth/signup', {
+            username: this.state.user,
+            dogName: this.state.dogName,
+            owner: this.state.owner,
+            sex: this.state.sex,
+            fixed: this.state.fixed,
+            lat: this.state.lat,
+            lng: this.state.lng,
+            location: this.state.location,
+            places: this.state.places,
+            vetDate: this.state.vetDate,
+            radius: this.state.radius
+          })
             .then(res => {
-              console.log('axios then: ',res)
-              this.setState({ redirectTo: "/matches" });
+              console.log('axios then: ', res)
+              this.setState({redirectTo: "/matches"});
             })
             .catch(err => console.log('Axios err: ', err));
-        }
-    
-      
-      
-    // })
-    // .catch(error => console.error('Error', error))
-
+        })
+    }
+    // }) .catch(error => console.error('Error', error))
   };
 
   render() {

@@ -28,7 +28,8 @@ const userSchema = new Schema({
 	places: {type: Array, unique: false },
 	playdates: { type: Array },
 	messages: { type: Array },
-	latLng: { lat:[Number],lng:[Number] }
+	lat: { type: String, unique: false },
+	lng: { type: String, unique: false  }
 
 
 	// {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}
