@@ -117,7 +117,8 @@ class App extends Component {
 					user: null,
 					redirectTo: "",
 					username: "",
-					password: ""
+					password: "",
+					confirmPassword: ""
 				})
 			}
 		})
@@ -137,6 +138,7 @@ class App extends Component {
 					errorMessage: "",
 					username: "",
 					password: "",
+					confirmPassword: "",
 					redirectTo: redirectUrl
 				};
 
@@ -150,7 +152,8 @@ class App extends Component {
 						this.setState({
 							errorMessage: error.message,
 							username: "",
-							password:""
+							password:"",
+							confirmPassword: ""
 						});
 			});
 	}
