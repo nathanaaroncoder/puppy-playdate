@@ -73,11 +73,16 @@ class App extends Component {
 		super()
 		this.state = {
 			loggedIn: false,
-			user: null
+			user: null,
+			errorMessage: "",
+			username: "",
+			password: "",
+			redirectTo: ""
 		}
 		this._logout = this._logout.bind(this)
 		this._login = this._login.bind(this)
 	}
+
 	componentDidMount() {
 		axios.get('/auth/user').then(response => {
 			console.log(response.data)
@@ -110,11 +115,13 @@ class App extends Component {
 		})
 	}
 
-	_login(username, password) {
+	_login = (event) => {
+		event.preventDefault();
+
 		axios
 			.post('/auth/login', {
-				username,
-				password
+				username: this.state.username,
+				password: this.state.password
 			})
 			.then(response => {
 				console.log(response)
@@ -122,13 +129,31 @@ class App extends Component {
 					// update the state
 					this.setState({
 						loggedIn: true,
-						user: response.data.user
+						user: response.data.user,
+						errorMessage: "",
+						username: "",
+						password: "",
+						redirectTo: "/matches"
 					})
 				}
-			})
+			}).catch(error => {
+						console.log("Hit Error!", error);
+						this.setState({
+							errorMessage: error.message,
+							username: "",
+							password:""
+						});
+			});
+	}
+
+	handleChange = (event) => {
+		this.setState({
+			[event.target.name]: event.target.value
+		})
 	}
 
 	render() {
+
 		if (this.state.loggedIn){
 			return (
 				<div className="App">
@@ -141,8 +166,14 @@ class App extends Component {
 						path="/login"
 						render={() =>
 							<LoginForm
-								_login={this._login}
+								login={this._login}
+								loggedIn={this.state.loggedIn}
+								username={this.state.username}
+								password={this.state.password}
+								redirectTo={this.state.redirectTo}
+								handleChange={this.handleChange}
 								_googleSignin={this._googleSignin}
+								errorMessage={this.state.errorMessage}
 							/>}
 					/>
 				</div>
@@ -156,16 +187,28 @@ class App extends Component {
 					{/*  ROUTES */}
 					<Route exact path="/" render={() =>
 							<LoginForm
-								_login={this._login}
+								login={this._login}
+								loggedIn={this.state.loggedIn}
+								username={this.state.username}
+								password={this.state.password}
+								redirectTo={this.state.redirectTo}
+								handleChange={this.handleChange}
 								_googleSignin={this._googleSignin}
+								errorMessage={this.state.errorMessage}
 							/>} />
 					<Route
 						exact
 						path="/login"
 						render={() =>
 							<LoginForm
-								_login={this._login}
+								login={this._login}
+								loggedIn={this.state.loggedIn}
+								username={this.state.username}
+								password={this.state.password}
+								redirectTo={this.state.redirectTo}
+								handleChange={this.handleChange}
 								_googleSignin={this._googleSignin}
+								errorMessage={this.state.errorMessage}
 							/>}
 					/>
 					<Route

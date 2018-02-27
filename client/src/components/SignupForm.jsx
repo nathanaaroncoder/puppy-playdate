@@ -12,7 +12,7 @@ class SignupForm extends Component {
 			username: '',
 			password: '',
 			confirmPassword: '',
-			photo: '',
+			photo: null,
 			redirectTo: null,
 			allUsernames: []
 		}
@@ -45,20 +45,62 @@ class SignupForm extends Component {
   }
 
 	handleChange(event) {
-		this.setState({
+		if (event.target.name == "photo"){
+			console.log("event.target...", event.target.files[0])
+			this.setState({
+				photo: event.target.files[0]
+			});
+  
+
+		}
+
+
+
+  else {
+  	this.setState({
 			[event.target.name]: event.target.value
 		})
 	}
+}
+
+
 
 	handleSubmit(event) {
 		event.preventDefault()
+			
+    // console.log(event);
+
+    // console.log(event.target.children)
+
+    // let input = event.target.children[0];
+
+    const formData = new FormData();
+
+    formData.append("photo", this.state.photo);
+    formData.append("username", this.state.username);
+    formData.append("password", this.state.password);
+
+    const config = {
+      headers: {
+          'content-type': 'multipart/form-data'
+      }
+    };
+
+    // console.log("formData ", formData)
+
+    // axios.post("/upload/image", formData, config)
+    // .then((response) => {
+    //   console.log("===============================");
+    //   console.log("RESPONSE: ", response);
+    // }).catch(error => {
+    //   console.log("ERROR: ", error);
+    // })
+  
+
+
 		// TODO - validate!
 		axios
-			.post('/auth/signup', {
-				username: this.state.username,
-				password: this.state.password,
-				photo: this.state.photo
-			})
+			.post('/auth/signup', formData, config)
 			.then(response => {
 				console.log(response)
 				if (!response.data.errmsg) {
@@ -110,13 +152,16 @@ class SignupForm extends Component {
 				  />
 					{/* <ImageUpload/> */}
 					<label htmlFor="photo">Link to your profile picture: </label>
-					<Input
-					type="text"
-					value={this.state.photo}
-					onChange={this.handleChange}
-					name="photo"
-					placeholder="Photo URL"
-				  />
+					
+				  
+    <Input type="file" 
+			onChange={this.handleChange}
+			name="photo"/>
+  
+  
+  
+    
+
 				  <FormBtn
 					// if either username or passwors is not filled out
 				  // or if password and confirm password don't match

@@ -78,6 +78,8 @@ p {
   display: inline-flex;
   margin-bottom: 15px;
   border: 1px solid #000;
+  height:300px;
+    width:300px;
 }
 
 .profileImage {
@@ -103,3 +105,11 @@ p {
     margin-top: 0px;
   }
 }
+
+
+@media only screen and (max-width: 950px) and (min-width: 760px) {
+  .avatar{
+    height:240px;
+    width:240px;
+  }
+} 

@@ -26,7 +26,7 @@ import "./UserProfile.css";
               <p>Sex: {info.sex}</p>
               <p>Fixed: {info.fixed}</p>
               <p>Last Vaccine: {info.vetDate}</p>
-              <p>Likes to go to:  {info.places}</p>
+              <p>Likes to go to: {info.places}</p>
           </div>
           </div>
           
