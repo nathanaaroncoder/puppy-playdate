@@ -17,7 +17,6 @@ const PORT = process.env.PORT || 3001
 const corsPrefetch = require('cors-prefetch-middleware');
 const imagesUpload = require('images-upload-middleware');
 
-
 console.log("imagesUpload =========", imagesUpload)
 //For the image uploader
 app.post('/notmultiple', imagesUpload.default(
@@ -81,9 +80,6 @@ if (process.env.NODE_ENV === 'production') {
 /* Express app ROUTING */
 app.use('/auth', require('./auth'))
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
-
 // ====== Error handler ====
 app.use(function(err, req, res, next) {
 	console.log('====== ERROR =======')
@@ -92,8 +88,6 @@ app.use(function(err, req, res, next) {
 })
 
 // ==== Starting Server =====
-server = app.listen(PORT, () => {
+app.listen(PORT, () => {
 	console.log(`App listening on PORT: ${PORT}`)
 })
-
-
