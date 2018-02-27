@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 // TODO - add proptypes
 
 const Header = props => {
@@ -24,9 +25,9 @@ const Header = props => {
 				{Greeting}
 				{ props.user ?
 				(<span id="logout">
-					<a href="#" className="nav-link" onClick={props._logout}>
+					<Link to="#" className="nav-link" onClick={props._logout}>
 						Logout &nbsp;
-					</a>
+					</Link>
 				</span>) : (<div></div>)
 			}
 			</div>
