@@ -75,12 +75,10 @@ router.post('/signup', (req, res) => {
 			uploader.upload("local", req.files["photo"], function(err, files) {
 		    console.log("FILES", files);
 		    if (err) {
-
 		      return next(err);
 		    }
 
 				newUser.photo = files[0].url;
-
 				newUser.save((err, savedUser) => {
 					if (err) return res.json(err)
 					return res.json(savedUser)
