@@ -107,9 +107,41 @@ p {
 }
 
 
-@media only screen and (max-width: 950px) and (min-width: 760px) {
+@media only screen and (max-width: 950px) {
   .avatar{
     height:240px;
     width:240px;
   }
 } 
+
+@media only screen and (max-width: 760px) {
+  .avatar{
+    height:300px;
+    width:300px;
+  }
+} 
+
+@media only screen and (max-width: 465px) {
+  .avatar{
+    height:240px;
+    width:240px;
+  }
+}
+
+
+
+@media only screen and (max-width: 375px) {
+  .avatar{
+    height:220px;
+    width:220px;
+  }
+}
+ 
+
+@media only screen and (max-width: 340px) {
+  .avatar{
+    height:200px;
+    width:200px;
+  }
+}
+ 
