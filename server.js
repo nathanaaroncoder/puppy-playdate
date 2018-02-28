@@ -17,12 +17,18 @@ const PORT = process.env.PORT || 3001
 const corsPrefetch = require('cors-prefetch-middleware');
 const imagesUpload = require('images-upload-middleware');
 
+<<<<<<< HEAD
 console.log("imagesUpload =========", imagesUpload)
 //For the image uploader
 // app.post('/notmultiple', imagesUpload.default(
 //     './server/static/files',
 //     'http://localhost:3001/static/files'
 // ));
+=======
+const path = require("path");
+const uploader = require("express-fileuploader");/*MAIN PACKAGE TO UPLOAD*/
+const multiparty = require("connect-multiparty"); /*MUST INSTALL THIS ADDITIONAL PACKAGE*/
+>>>>>>> 1f1866181ea7bbfe15fd483e13791da48b180490
 
 // ===== Middleware ====
 app.use(morgan('dev'))
@@ -45,6 +51,16 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session()) // will call the deserializeUser
 
+app.use("/auth/signup", multiparty());
+
+
+//Setting up the upload directory and the base url for image link
+uploader.use(
+  new uploader.LocalStrategy({
+    uploadPath: "/uploads",
+    baseUrl: `http://127.0.0.1:${PORT}/uploads/`
+  })
+);
 
 // ==== if its production environment!
 if (process.env.NODE_ENV === 'production') {
@@ -57,6 +73,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 /* Express app ROUTING */
+
+//Route for profile image retrieval
+app.get("/uploads/:id", (req, res) => {
+  res.sendFile(path.join(__dirname, `uploads/${req.params.id}`));
+});
+
 app.use('/auth', require('./auth'))
 
 // ====== Error handler ====

@@ -5,7 +5,6 @@ import Swipeable from 'react-swipeable';
 import "./SimpleCarousel";
 import UserProfile from "../UserProfile";
 import geodist from 'geodist';
-import { Link } from 'react-router-dom';
 
 const IMG_WIDTH = "342px";
 const IMG_HEIGHT = "249px";
@@ -262,7 +261,7 @@ class SimpleCarousel extends React.Component {
           
         </Swipeable>
         ) : (
-          <h2 style={{ textAlign: "center", marginTop: "100px" }}>No more potential pups. Not to worry though. You can message your matches <Link to="/messages">here</Link></h2>
+          <h2 style={{ textAlign: "center", marginTop: "100px" }}>No more potential pups. Not to worry though. You can message your matches <a href="/messages">here</a></h2>
         ) }
 
           </div>

@@ -176,7 +176,7 @@ class Dogs extends Component {
           <Col size="md-8 sm-12">
           <div className= "panel panel-primary">
             <div className="panel-heading">
-              <h3 class="panel-title">My Profile</h3>
+              <h3 className="panel-title">My Profile</h3>
             </div>          
             <div className="panel-body">
               <form>

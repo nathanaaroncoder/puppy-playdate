@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../db/models/user')
 const passport = require('../passport')
+const uploader = require("express-fileuploader");/*MAIN PACKAGE TO UPLOAD*/
 
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
 router.get(
@@ -54,7 +55,9 @@ router.post('/logout', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-	const { username, password, dogName, photo } = req.body
+	const { username, password } = req.body
+	console.log("********************",req.body);
+	console.log("$$$$$$$$$$$$$$$$$$$$$",req.files["photo"]);
 	// ADD VALIDATION
 	User.findOne({ 'local.username': username }, (err, userMatch) => {
 		if (userMatch) {
@@ -62,16 +65,36 @@ router.post('/signup', (req, res) => {
 				error: `Sorry, already a user with the username: ${username}`
 			})
 		}
+
 		const newUser = new User({
-			'local.username': username,
-			'local.password': password,
-			'dogName': dogName,
-			'photo': photo
-		})
-		newUser.save((err, savedUser) => {
-			if (err) return res.json(err)
-			return res.json(savedUser)
-		})
+					'local.username': username,
+					'local.password': password
+				});
+
+		if(req.files[0]){
+			uploader.upload("local", req.files["photo"], function(err, files) {
+		    console.log(files);
+		    if (err) {
+
+		      return next(err);
+		    }
+
+				newUser.photo = files[0].url;
+
+				newUser.save((err, savedUser) => {
+					if (err) return res.json(err)
+					return res.json(savedUser)
+				});
+
+			});
+		}else{
+			newUser.save((err, savedUser) => {
+					if (err) return res.json(err)
+					return res.json(savedUser)
+				});
+		}
+
+		
 	})
 })
 // {username: this.state.user, dogName: this.state.dogName, owner: this.state.owner, sex: this.state.sex, fixed: this.state.fixed, location: this.state.location}
