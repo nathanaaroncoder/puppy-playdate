@@ -71,9 +71,9 @@ router.post('/signup', (req, res) => {
 					'local.password': password
 				});
 
-		if(req.files[0]){
+		if(req.files["photo"]){
 			uploader.upload("local", req.files["photo"], function(err, files) {
-		    console.log(files);
+		    console.log("FILES", files);
 		    if (err) {
 
 		      return next(err);
