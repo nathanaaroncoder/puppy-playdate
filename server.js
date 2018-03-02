@@ -60,17 +60,17 @@ if (process.env.NODE_ENV === 'production') {
 	const path = require('path')
 	console.log('YOU ARE IN THE PRODUCTION ENV')
 	app.use(express.static(path.join(__dirname, './client/build/')))
-	app.get("/", (req, res) => {
-		res.sendFile(path.join(__dirname, './client/build/'))
+	app.use("/messages", (req, res) => {
+		express.static(path.join(__dirname, './client/build/'))
 	})
-	app.get("/matches", (req, res) => {
-		res.sendFile(path.join(__dirname, './client/src/components/Matches'))
+	app.use("/matches", (req, res) => {
+		express.static(path.join(__dirname, './client/build/'))
 	})
-	app.get("/messages", (req, res) => {
-		res.sendFile(path.join(__dirname, './client/src/components/Messages'))
+	app.use("/user_profile", (req, res) => {
+		express.static(path.join(__dirname, './client/build/'))
 	})
-	app.get("/user_profile", (req, res) => {
-		res.sendFile(path.join(__dirname, './client/src/components/UserProfile'))
+	app.use("/calendar", (req, res) => {
+		express.static(path.join(__dirname, './client/build/'))
 	})
 }
 
