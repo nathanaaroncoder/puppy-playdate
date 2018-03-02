@@ -42,10 +42,7 @@ const DisplayLinks = props => {
 							Home
 						</Link>
 					</li> */}
-					<Switch>
-				  <Route path="/" component={LoginForm} />
-			      <Route component={NoMatch} />
-		 		</Switch>
+					
 					<li className="nav-item">
 						<Link to="/login" className="nav-link">
 							Login
