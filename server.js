@@ -60,17 +60,17 @@ if (process.env.NODE_ENV === 'production') {
 	const path = require('path')
 	console.log('YOU ARE IN THE PRODUCTION ENV')
 	app.use('/', express.static(path.join(__dirname, './client/build/')))
-	// app.get('/', (req, res) => {
-	// 	res.sendFile(path.join(__dirname, './client/build/'))
-	// })
+	app.get('/', (req, res) => {
+		res.sendFile(path.join(__dirname, './client/build/index.html'))
+	})
 }
 
 /* Express app ROUTING */
 
 //Route for profile image retrieval
-// app.get("/uploads/:id", (req, res) => {
-//   res.sendFile(path.join(__dirname, `uploads/${req.params.id}`));
-// });
+app.get("/uploads/:id", (req, res) => {
+  res.sendFile(path.join(__dirname, `uploads/${req.params.id}`));
+});
 
 app.use('/auth', require('./auth'))
 
