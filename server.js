@@ -17,18 +17,11 @@ const PORT = process.env.PORT || 3001
 const corsPrefetch = require('cors-prefetch-middleware');
 const imagesUpload = require('images-upload-middleware');
 
-<<<<<<< HEAD
-console.log("imagesUpload =========", imagesUpload)
-//For the image uploader
-// app.post('/notmultiple', imagesUpload.default(
-//     './server/static/files',
-//     'http://localhost:3001/static/files'
-// ));
-=======
+
 const path = require("path");
 const uploader = require("express-fileuploader");/*MAIN PACKAGE TO UPLOAD*/
 const multiparty = require("connect-multiparty"); /*MUST INSTALL THIS ADDITIONAL PACKAGE*/
->>>>>>> 1f1866181ea7bbfe15fd483e13791da48b180490
+
 
 // ===== Middleware ====
 app.use(morgan('dev'))
