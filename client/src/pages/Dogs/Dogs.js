@@ -45,11 +45,13 @@ class Dogs extends Component {
   }
 
   loadUser = () => {
+    console.log("INSIDE THE loadUser FUNCTION !!!!!!!!!!!!!");
     // get the current user info and display on profile page
     axios.get('/auth/user')
       .then(res => {
-
-        const userInfo = res.data.user
+        console.log("just in side the .then -- res", res);
+        const userInfo = res.data.user;
+        console.log("res.data.user", res.data.user);
         this.setState({ 
           user: userInfo.local.username,
           photo: userInfo.photo,

@@ -17,9 +17,11 @@ const PORT = process.env.PORT || 3001
 const corsPrefetch = require('cors-prefetch-middleware');
 const imagesUpload = require('images-upload-middleware');
 
+
 const path = require("path");
 const uploader = require("express-fileuploader");/*MAIN PACKAGE TO UPLOAD*/
 const multiparty = require("connect-multiparty"); /*MUST INSTALL THIS ADDITIONAL PACKAGE*/
+
 
 // ===== Middleware ====
 app.use(morgan('dev'))
@@ -58,7 +60,7 @@ if (process.env.NODE_ENV === 'production') {
 	const path = require('path')
 	console.log('YOU ARE IN THE PRODUCTION ENV')
 	app.use('/static', express.static(path.join(__dirname, './client/build/static')))
-	app.get('/', (req, res) => {
+	app.get('*', (req, res) => {
 		res.sendFile(path.join(__dirname, './client/build/'))
 	})
 }
