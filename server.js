@@ -60,18 +60,18 @@ if (process.env.NODE_ENV === 'production') {
 	const path = require('path')
 	console.log('YOU ARE IN THE PRODUCTION ENV')
 	app.use(express.static(path.join(__dirname, './client/build/')))
-	app.use("/messages", (req, res) => {
+	app.use("/messages",
 		express.static(path.join(__dirname, './client/build/'))
-	})
-	app.use("/matches", (req, res) => {
+	)
+	app.use("/matches", 
 		express.static(path.join(__dirname, './client/build/'))
-	})
-	app.use("/user_profile", (req, res) => {
+	)
+	app.use("/user_profile", 
 		express.static(path.join(__dirname, './client/build/'))
-	})
-	app.use("/calendar", (req, res) => {
+	)
+	app.use("/calendar", 
 		express.static(path.join(__dirname, './client/build/'))
-	})
+	)
 }
 
 /* Express app ROUTING */
