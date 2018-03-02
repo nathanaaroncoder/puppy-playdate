@@ -60,8 +60,17 @@ if (process.env.NODE_ENV === 'production') {
 	const path = require('path')
 	console.log('YOU ARE IN THE PRODUCTION ENV')
 	app.use(express.static(path.join(__dirname, './client/build/')))
-	app.get((req, res) => {
+	app.get("/", (req, res) => {
 		res.sendFile(path.join(__dirname, './client/build/'))
+	})
+	app.get("/matches", (req, res) => {
+		res.sendFile(path.join(__dirname, './client/src/components/Matches'))
+	})
+	app.get("/messages", (req, res) => {
+		res.sendFile(path.join(__dirname, './client/src/components/Messages'))
+	})
+	app.get("/user_profile", (req, res) => {
+		res.sendFile(path.join(__dirname, './client/src/components/UserProfile'))
 	})
 }
 
