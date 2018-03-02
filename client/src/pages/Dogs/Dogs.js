@@ -50,6 +50,7 @@ class Dogs extends Component {
       .then(res => {
 
         const userInfo = res.data.user
+        console.log("res.data.user", res.data.user);
         this.setState({ 
           user: userInfo.local.username,
           photo: userInfo.photo,
