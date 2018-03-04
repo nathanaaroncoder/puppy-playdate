@@ -24,14 +24,13 @@ const DisplayLinks = props => {
   			<div>
 			    <Nav />
 			    <Switch>
+				  <Route exact path="/" component={Matches} />
 			      <Route exact path="/matches" component={Matches} />
 			      <Route exact path="/user_profile" component={Dogs} />
 			      <Route exact path="/messages" component={Messages}/>
 			      <Route exact path="/calendar" component={Calendar}/>
-			    	<Route component={NoMatch} />
-
-			    {/* <Books /> */}
-		 			</Switch>
+			      <Route component={NoMatch} />
+		 		</Switch>
 				</div>
 		)
 	} else {
@@ -43,6 +42,7 @@ const DisplayLinks = props => {
 							Home
 						</Link>
 					</li> */}
+					
 					<li className="nav-item">
 						<Link to="/login" className="nav-link">
 							Login

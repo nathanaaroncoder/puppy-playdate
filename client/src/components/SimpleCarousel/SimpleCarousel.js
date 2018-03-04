@@ -5,7 +5,7 @@ import Swipeable from 'react-swipeable';
 import "./SimpleCarousel";
 import UserProfile from "../UserProfile";
 import geodist from 'geodist';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const IMG_WIDTH = "342px";
 const IMG_HEIGHT = "249px";
