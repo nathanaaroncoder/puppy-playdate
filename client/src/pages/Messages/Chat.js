@@ -2,6 +2,8 @@ import axios from 'axios';
 import API from '../../utils/API';
 import React from "react";
 import MessagesList from "./Messages_List";
+import {ListGroup, ListGroupItem} from 'react-bootstrap';
+import './Chat.css';
 
 
 class Chat extends React.Component {
@@ -98,17 +100,25 @@ class Chat extends React.Component {
               <div className="card-body">
                 <div className="card-title"> Messages with {this.props.match} </div> 
                 <hr />
-                <div className="messages"> 
+                <ListGroup className="messages"> 
                   {
                     this.state.messages.map((message, i) => {
+                      if(message.author == this.state.user){
+                        return ( 
+                          <ListGroupItem className='list-group-item-info' style={{margin: '2% 0% 2% 45%'}} key={i}> 
+                            <div className='current-user'>{message.message}</div> 
+                          </ListGroupItem> 
+                        );
+                      } else {
                       return ( 
-                        <div key={i}> 
-                          {message.author}: {message.message} 
-                        </div> 
-                      );
+                        <ListGroupItem style={{margin: '2% 45% 2% 0%'}} key={i}> 
+                          <div className='other-person'>{message.message}</div> 
+                        </ListGroupItem> 
+                      )
+                    }
                     })
                   } 
-                </div>
+                </ListGroup>
               </div> 
               <div className="card-footer">
                 <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })}/> 
