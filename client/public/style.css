@@ -38,6 +38,14 @@ body{
 
 }
 
+.shadow{
+	/*inner shadow*/
+	/*box-shadow: inset 0 0 10px #000000;*/
+	box-shadow: 3px 3px 5px;
+	margin-right: 2%;
+	margin-left: 2%
+}
+
 .LoginForm, .SignupForm{
 	width: 90%;
 	margin: auto;
