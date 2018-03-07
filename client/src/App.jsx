@@ -221,19 +221,34 @@ class App extends Component {
 				<div className="App">
 					<Header user={this.state.user} />
 					{/* LINKS to our different 'pages' */}
-				<div className="main-container">			
-				<div className="subcontainer">
-					<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
-					{/*  ROUTES */}
-					<div id="about">
-					Find friends for your puppy in your area.
-					<br/>
-					Start by signing up and letting us know a little bit more about your pet.
-					<br/>
-					Swipe right if you think the dog would be a good match for yours.
-					<br/>
-					Once you both think it was good match, you can message each other to schedule a playdate.
-					</div>
+				<div className="main-container">            
+           <div className="subcontainer">
+            <DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
+            {/*  ROUTES */}
+            <div id="about">
+            Find friends for your puppy in your area.
+            	<br/>
+            	<div className="row">
+            		<div className="panel panel-default shadow col-xs-offset-1 col-xs-3">
+  								<div className="panel-body">
+                    Start by signing up and letting us know a little bit more about your pet.
+
+									</div>
+								</div>
+              	<div className="panel panel-default shadow col-xs-3">
+  								<div className="panel-body">
+                    Swipe right if you think the dog would be a good match for yours.
+
+									</div>
+								</div>
+                <div className="panel panel-default shadow col-xs-3">
+  								<div className="panel-body">
+                    Once you both think it was good match, you can message each other to schedule a playdate.
+
+									</div>
+								</div>
+							</div>
+						</div>
 					
 					<Route exact path="/" render={() =>
 							<LoginForm
