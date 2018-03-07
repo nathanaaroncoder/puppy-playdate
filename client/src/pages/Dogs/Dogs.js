@@ -24,7 +24,6 @@ class Dogs extends Component {
     this.state = {
       user: null,
       dogName: "",
-      owner: "",
       photo: "",
       sex: "",
       places: [],
@@ -55,7 +54,6 @@ class Dogs extends Component {
         this.setState({ 
           user: userInfo.local.username,
           photo: userInfo.photo,
-          owner : userInfo.owner,
           image : userInfo.image,
           dogName: userInfo.dogName,
           location: userInfo.location,
@@ -115,7 +113,7 @@ class Dogs extends Component {
     event.preventDefault();
     console.log(this.state);
 
-    if (this.state.dogName && this.state.owner && this.state.sex) {
+    if (this.state.dogName && this.state.sex) {
       geocodeByAddress(this.state.location)
         .then(results => getLatLng(results[0]))
         .then(latLng => {
@@ -130,7 +128,6 @@ class Dogs extends Component {
             .put('/auth/signup', {
             username: this.state.user,
             dogName: this.state.dogName,
-            owner: this.state.owner,
             sex: this.state.sex,
             fixed: this.state.fixed,
             lat: this.state.lat,
@@ -182,6 +179,7 @@ class Dogs extends Component {
             </div>          
             <div className="panel-body">
               <form>
+              
                 <h3>Dog Name:</h3>
                 <Input
                   value={this.state.dogName}
@@ -189,12 +187,6 @@ class Dogs extends Component {
                   name="dogName"
                   placeholder="Dog Name (required)"/>
 
-                <h3>Owner:</h3>
-                <Input
-                  value={this.state.owner}
-                  onChange={this.handleInputChange}
-                  name="owner"
-                  placeholder="Owner"/>
 
                 <h3>Location:</h3>
                 <PlacesAutocomplete 

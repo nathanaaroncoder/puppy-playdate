@@ -145,10 +145,10 @@ span#nav-icons:hover{
 	color: rgb(34, 65, 62);
 }
 
-.panel-body{
+.landing-box{
 	height: 140px;
 	display: flex;
-    align-items: center;
+   align-items: center;
 
 }
 

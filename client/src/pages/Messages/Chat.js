@@ -50,14 +50,13 @@ class Chat extends React.Component {
               user: response.data.user.local.username
             })
           }
-        })
-        
-        axios.get('/auth/signup').then(res => {
+
+          axios.get('/auth/signup').then(res => {
           console.log(res.data);
           const allDogs = res.data;
         
           //gives you the current user's data from the whole list
-          const currentUserData = allDogs.filter(dog => dog.local.username == this.state.user);
+          const currentUserData = allDogs.filter(dog => dog.local.username == response.data.user.local.username);
           console.log("current user data", currentUserData[0]);
           const messages = currentUserData[0].messages;
           messages.forEach(message => {
@@ -70,6 +69,10 @@ class Chat extends React.Component {
           console.log(`Get Messages: ${this.state.messages}`);
 
       })
+          
+        })
+        
+        
     }
 
   }
