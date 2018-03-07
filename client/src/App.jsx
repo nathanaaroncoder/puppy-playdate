@@ -225,30 +225,42 @@ class App extends Component {
            <div className="subcontainer">
             <DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
             {/*  ROUTES */}
-            <div id="about">
+            <h2 id="about">
             Find friends for your puppy in your area.
+			</h2>
+			
             	<br/>
             	<div className="row">
-            		<div className="panel panel-default shadow col-xs-offset-1 col-xs-3">
+					<div className="col-xs-12 col-sm-4">
+            		<div className="panel panel-default shadow">
   								<div className="panel-body">
+								  <h3 className="landing-box-text">
                     Start by signing up and letting us know a little bit more about your pet.
-
-									</div>
+								  </h3>
 								</div>
-              	<div className="panel panel-default shadow col-xs-3">
+						</div>
+					</div>
+					<div className="col-xs-12 col-sm-4">
+              			<div className="panel panel-default shadow">
   								<div className="panel-body">
+								  <h3>
                     Swipe right if you think the dog would be a good match for yours.
+					</h3>
 
 									</div>
 								</div>
-                <div className="panel panel-default shadow col-xs-3">
+					</div>
+					<div className="col-xs-12 col-sm-4">
+                		<div className="panel panel-default shadow">
   								<div className="panel-body">
+								  <h3>
                     Once you both think it was good match, you can message each other to schedule a playdate.
-
+								</h3>
 									</div>
 								</div>
 							</div>
-						</div>
+					</div>
+					<br/>
 					
 					<Route exact path="/" render={() =>
 							<LoginForm

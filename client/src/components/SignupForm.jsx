@@ -45,7 +45,7 @@ const SignupForm = (props) => {
 	}
 	return (
 		<div className="SignupForm">
-			<center><h1>Sign Up</h1></center>
+			<center><h2>Sign Up</h2></center>
 			<br/>
 			<form>
 			<label htmlFor="username">Username: </label>

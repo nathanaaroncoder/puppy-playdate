@@ -39,8 +39,8 @@ body{
 }
 
 .shadow{
-    /*inner shadow*/
-    /*box-shadow: inset 0 0 10px #000000;*/
+    /* inner shadow*/
+    /* box-shadow: inset 0 0 10px #000000; */
     box-shadow: 3px 3px 5px;
     margin-right: 2%;
     margin-left: 2%
@@ -144,3 +144,15 @@ span#nav-icons:hover{
 	margin-bottom: 30px;
 	color: rgb(34, 65, 62);
 }
+
+.panel-body{
+	height: 140px;
+	display: flex;
+    align-items: center;
+
+}
+
+/* .landing-box-text{
+	position: absolute;
+	vertical-align: middle;
+} */

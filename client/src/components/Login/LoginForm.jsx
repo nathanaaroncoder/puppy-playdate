@@ -15,7 +15,7 @@ const LoginForm = (props) => {
 		} else {
 			return (
 				<div className="LoginForm">
-					<center><h1>Login form</h1></center>
+					<center><h2>Login form</h2></center>
 					<br/>
 					<form>
 						{props.errorMessage ? <p style={{color:"red"}}>Incorrect username or password info</p> :<p></p>}
