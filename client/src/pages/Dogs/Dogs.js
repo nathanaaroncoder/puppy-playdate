@@ -70,6 +70,7 @@ class Dogs extends Component {
         }) 
         console.log("res.data", res.data);
         console.log("user here", this.state.user);
+        console.log("Elisheva")
       })
       .catch(err => console.log(err));
   };
