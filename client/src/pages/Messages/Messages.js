@@ -22,24 +22,26 @@ import axios from 'axios';
               user: response.data.user.local.username
             })
           }
-        })
-        
-        axios.get('/auth/signup').then(res => {
-          console.log(res.data);
-          const allDogs = res.data;
-        
-          //gives you the current user's data from the whole list
-          const currentUserData = allDogs.filter(dog => dog.local.username == this.state.user);
-          console.log("current user data", currentUserData[0]);
-          const matches = currentUserData[0].matches;
-          matches.forEach(match => {
-            this.setState({
-              matches: [...this.state.matches, match]
-            })
-          });
-          console.log(`Set Matches: ${this.state.matches}`);
 
+          axios.get('/auth/signup').then(res => {
+            console.log(res.data);
+            const allDogs = res.data;
+          
+            //gives you the current user's data from the whole list
+            const currentUserData = allDogs.filter(dog => dog.local.username == response.data.user.local.username);
+            console.log("current user data", currentUserData[0]);
+            const matches = currentUserData[0].matches;
+            matches.forEach(match => {
+              this.setState({
+                matches: [...this.state.matches, match]
+              })
+            });
+            console.log(`Set Matches: ${this.state.matches}`);
+
+          })
         })
+        
+     
       }
 
       componentDidMount(){

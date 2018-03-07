@@ -233,7 +233,7 @@ class App extends Component {
             	<div className="row">
 					<div className="col-xs-12 col-sm-4">
             		<div className="panel panel-default shadow">
-  								<div className="panel-body">
+  								<div className="panel-body landing-box">
 								  <h3 className="landing-box-text">
                     Start by signing up and letting us know a little bit more about your pet.
 								  </h3>
@@ -242,7 +242,7 @@ class App extends Component {
 					</div>
 					<div className="col-xs-12 col-sm-4">
               			<div className="panel panel-default shadow">
-  								<div className="panel-body">
+  								<div className="panel-body landing-box">
 								  <h3>
                     Swipe right if you think the dog would be a good match for yours.
 					</h3>
@@ -252,7 +252,7 @@ class App extends Component {
 					</div>
 					<div className="col-xs-12 col-sm-4">
                 		<div className="panel panel-default shadow">
-  								<div className="panel-body">
+  								<div className="panel-body landing-box">
 								  <h3>
                     Once you both think it was good match, you can message each other to schedule a playdate.
 								</h3>
